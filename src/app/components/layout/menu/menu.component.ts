@@ -24,6 +24,12 @@ export class MenuComponent implements OnInit {
                 label: 'Services',
                 items: [
                     { label: 'Laundry serivces', icon: 'pi pi-fw pi-th-large', routerLink: ['/laundry/laundry-services'] },
+                    // { label: 'List invoices', icon: 'pi pi-fw pi-file', routerLink: ['/invoices/list-invoices'] },
+                ]
+            },
+            {
+                label: 'Invoices',
+                items: [
                     { label: 'List invoices', icon: 'pi pi-fw pi-file', routerLink: ['/invoices/list-invoices'] },
                 ]
             },

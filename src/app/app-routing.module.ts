@@ -10,7 +10,7 @@ import { LayoutComponent } from './components/layout/layout.component';
         children: [
           // { path: '', loadChildren: () => import('./demo/components/dashboard/dashboard.module').then(m => m.DashboardModule) },
           { path: 'laundry', loadChildren: () => import('./components/laundryServices/laundryServices.module').then(m => m.LaundryServicesModule) },
-          { path: 'invoices', loadChildren: () => import('./components/listInvoices/listInvoices.module').then(m => m.ListInvoicesModule) },
+          { path: 'invoices', loadChildren: () => import('./components/invoices/invoices.module').then(m => m.InvoicesModule) },
       ]
       },
     ], { scrollPositionRestoration: 'enabled', anchorScrolling: 'enabled', onSameUrlNavigation: 'reload' })
