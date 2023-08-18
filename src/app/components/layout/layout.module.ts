@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { InputTextModule } from 'primeng/inputtext';
@@ -16,6 +16,9 @@ import { TopBarComponent } from './topbar/topbar.component';
 import { FooterComponent } from './footer/footer.component';
 import { SidebarComponent } from "./sidebar/sidebar.component";
 import { LayoutComponent } from './layout.component';
+import { ButtonModule } from 'primeng/button';
+import { DialogModule } from 'primeng/dialog';
+import { InputTextareaModule } from 'primeng/inputtextarea';
 
 @NgModule({
     declarations: [
@@ -38,6 +41,10 @@ import { LayoutComponent } from './layout.component';
         InputSwitchModule,
         RippleModule,
         RouterModule,
+        ButtonModule,
+        DialogModule,
+        ReactiveFormsModule,
+        InputTextareaModule
     ],
     exports: [LayoutComponent]
 })

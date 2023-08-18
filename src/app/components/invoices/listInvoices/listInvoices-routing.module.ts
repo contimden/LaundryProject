@@ -4,8 +4,8 @@ import { ListInvoicesComponent } from './listInvoices.component';
 
 @NgModule({
     imports: [RouterModule.forChild([
-        { path: 'list-invoices', component: ListInvoicesComponent }
+        { path: '', component: ListInvoicesComponent }
     ])],
     exports: [RouterModule]
 })
-export class ListInvoicesComponentRoutingModule { }
+export class ListInvoicesRoutingModule { }
