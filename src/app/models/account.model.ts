@@ -8,6 +8,6 @@ export class Account {
   photo: string
   dob: string
   securitycode: string
-  type: string
+  type: number
   address: string
 }

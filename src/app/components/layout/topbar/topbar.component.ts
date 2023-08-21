@@ -40,7 +40,7 @@ export class TopBarComponent {
       photo: "4.jpeg",
       dob: "2023-01-02",
       securitycode: "123",
-      type: "VIP",
+      type: 1,
       address: "Số 10 Xô Viết Nghệ Tĩnh, Phường Nguyễn Du, Thành phố Hà Tĩnh, Tỉnh Hà Tĩnh",
     });
   }

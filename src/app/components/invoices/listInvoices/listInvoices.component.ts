@@ -5,11 +5,17 @@ import { InvoicesService } from 'src/app/services/invoices.service';
 
 @Component({
   templateUrl: './listInvoices.component.html',
+  styles: [`
+    .p-inputnumber: {
+      width: 100%;
+    }
+  `]
 })
 export class ListInvoicesComponent implements OnInit {
   invoiceForm: FormGroup;
   invoices: Invoices[]
-  isEditng: boolean
+  contentVisible: boolean
+  isEditing: boolean
   invoiceId: number
   idAcc: number
   owned: number
@@ -32,7 +38,7 @@ export class ListInvoicesComponent implements OnInit {
 
   ngOnInit() {
     this.invoices = this.invoicesService.findAll();
-    this.isEditng = false
+    this.contentVisible = false
     this.paidMoney = 0
   }
 
@@ -94,7 +100,8 @@ export class ListInvoicesComponent implements OnInit {
   }
 
   editRow(invoice: any) {
-    this.isEditng = true
+    this.contentVisible = true
+    this.isEditing = true
     this.invoiceId = invoice.invoiceId
     this.idAcc = invoice.idAcc
     this.owned = invoice.owned
@@ -113,11 +120,28 @@ export class ListInvoicesComponent implements OnInit {
       paidStatus: invoice.paidStatus,
       paidMoney: this.paidMoney
     });
-
-    console.log(invoice)
   }
 
   cancelEditing() {
-    this.isEditng = false
+    this.contentVisible = false
+    this.isEditing = false
+  }
+
+  addInvoice() {
+    this.contentVisible = !this.contentVisible
+    console.log(this.contentVisible)
+    this.invoiceForm = this.formBuilder.group({
+      idAcc: null,
+      created: null,
+      total: null,
+      paid: null,
+      owned: null,
+      expectedDate: null,
+      completedDate: null,
+      description: null,
+      deliveryStatus: null,
+      paidStatus: null,
+      paidMoney: null
+    });
   }
 }
