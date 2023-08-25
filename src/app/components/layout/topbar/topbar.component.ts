@@ -29,7 +29,14 @@ export class TopBarComponent {
   ) {}
 
   ngOnInit() {
-    this.account = this.accountService.find(1);
+    this.accountService.findbyid(1).then(
+      res => {
+        this.account = res as Account;
+    },
+    err => {
+        console.log(err);
+    }
+    )
     this.updateAccountForm = this.formBuilder.group({
       id: 1,
       username: "abc",
@@ -47,7 +54,7 @@ export class TopBarComponent {
 
   showDialog() {
     this.visibleProfile = true;
-    this.account = this.accountService.find(1);
+  
     console.log(this.account);
   }
 

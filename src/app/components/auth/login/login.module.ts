@@ -12,6 +12,8 @@ import { InputNumberModule } from 'primeng/inputnumber';
 import { DropdownModule } from 'primeng/dropdown';
 import { PasswordModule } from 'primeng/password';
 import { CheckboxModule } from 'primeng/checkbox';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { ToastModule } from 'primeng/toast';
 
 @NgModule({
     imports: [
@@ -27,7 +29,9 @@ import { CheckboxModule } from 'primeng/checkbox';
         InputNumberModule,
         DropdownModule,
         PasswordModule,
-        CheckboxModule
+        CheckboxModule,
+        ConfirmDialogModule,
+        ToastModule
     ],
     declarations: [LoginComponent]
 })

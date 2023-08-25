@@ -6,7 +6,7 @@ import { LayoutComponent } from './components/layout/layout.component';
   imports: [
     RouterModule.forRoot([
       {
-        path: '', component: LayoutComponent,
+        path: 'admin', component: LayoutComponent,
         children: [
           // { path: '', loadChildren: () => import('./demo/components/dashboard/dashboard.module').then(m => m.DashboardModule) },
           { path: 'laundry', loadChildren: () => import('./components/laundryServices/laundryServices.module').then(m => m.LaundryServicesModule) },
