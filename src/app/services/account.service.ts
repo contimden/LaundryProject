@@ -1,53 +1,53 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { lastValueFrom } from "rxjs";
-import { BaseUrlService } from "./baseUrl.service";
+import { BaseURLService } from "./base_URL.service";
 
 @Injectable()
 
 export class AccountService {
   constructor(
-    private baseUrlService: BaseUrlService,
+    private baseURLService: BaseURLService,
     private httpClient: HttpClient
   ) { }
 
   async findAll() {
-    return await lastValueFrom(this.httpClient.get(this.baseUrlService.getBaseUrl() + 'account/findall'));
+    return await lastValueFrom(this.httpClient.get(this.baseURLService.getBaseUrl() + 'account/findall'));
   }
 
   async findById(id: number) {
-    return await lastValueFrom(this.httpClient.get(this.baseUrlService.getBaseUrl() + 'account/findbyid/' + id));
+    return await lastValueFrom(this.httpClient.get(this.baseURLService.getBaseUrl() + 'account/findbyid/' + id));
   }
 
   async update(formData: FormData) {
-    return await lastValueFrom(this.httpClient.put(this.baseUrlService.getBaseUrl() + 'account/update', formData));
+    return await lastValueFrom(this.httpClient.put(this.baseURLService.getBaseUrl() + 'account/update', formData));
   }
 
   async findByUsername(keyword: string){
-    return await lastValueFrom(this.httpClient.get(this.baseUrlService.getBaseUrl() + 'account/findbyusername/' + keyword));
+    return await lastValueFrom(this.httpClient.get(this.baseURLService.getBaseUrl() + 'account/findbyusername/' + keyword));
   }
   async findByType(keyword: string){
-    return await lastValueFrom(this.httpClient.get(this.baseUrlService.getBaseUrl() + 'account/findbytype/' + keyword));
+    return await lastValueFrom(this.httpClient.get(this.baseURLService.getBaseUrl() + 'account/findbytype/' + keyword));
   }
   async checkMail(keyword: string){
-    return await lastValueFrom(this.httpClient.get(this.baseUrlService.getBaseUrl() + 'account/checkemail/' + keyword));
+    return await lastValueFrom(this.httpClient.get(this.baseURLService.getBaseUrl() + 'account/checkemail/' + keyword));
   }
   async checkUsername(keyword: string){
-    return await lastValueFrom(this.httpClient.get(this.baseUrlService.getBaseUrl() + 'account/checkemail/' + keyword));
+    return await lastValueFrom(this.httpClient.get(this.baseURLService.getBaseUrl() + 'account/checkemail/' + keyword));
   }
   async create(formData: FormData){
-    return await lastValueFrom(this.httpClient.post(this.baseUrlService.getBaseUrl() + 'account/create', formData));
+    return await lastValueFrom(this.httpClient.post(this.baseURLService.getBaseUrl() + 'account/create', formData));
   }
   async verify(){
-    return await lastValueFrom(this.httpClient.get(this.baseUrlService.getBaseUrl() + 'account/verify'));
+    return await lastValueFrom(this.httpClient.get(this.baseURLService.getBaseUrl() + 'account/verify'));
   }
   async resetPassword(username: string, email: string){
-    return await lastValueFrom(this.httpClient.get(this.baseUrlService.getBaseUrl() + 'account/resetpassword/' + username +"/" + email));
+    return await lastValueFrom(this.httpClient.get(this.baseURLService.getBaseUrl() + 'account/resetpassword/' + username +"/" + email));
   }
   async login(username: string, password: string){
-    return await lastValueFrom(this.httpClient.get(this.baseUrlService.getBaseUrl() + 'account/login/' + username +"&" + password));
+    return await lastValueFrom(this.httpClient.get(this.baseURLService.getBaseUrl() + 'account/login/' + username +"&" + password));
   }
   async delete(id: number){
-    return await lastValueFrom(this.httpClient.delete(this.baseUrlService.getBaseUrl() + 'account/delete/' + id));
+    return await lastValueFrom(this.httpClient.delete(this.baseURLService.getBaseUrl() + 'account/delete/' + id));
   }
 }
