@@ -31,7 +31,8 @@ export class MenuComponent implements OnInit {
             {
                 label: 'Invoices',
                 items: [
-                    { label: 'List invoices', icon: 'pi pi-fw pi-file', routerLink: ['/admin/invoices/list-invoices'] },
+                    { label: 'List invoices', icon: 'pi pi-fw pi-file', routerLink: ['/invoices/list-invoices'] },
+                    { label: 'List items', icon: 'pi pi-fw pi-file', routerLink: ['/invoices/list-items'] },
                 ]
             },
         ];

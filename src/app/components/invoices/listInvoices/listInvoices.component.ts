@@ -1,5 +1,7 @@
+import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { MessageService } from 'primeng/api';
 import { Invoices } from 'src/app/models/invoices.model';
 import { InvoicesService } from 'src/app/services/invoices.service';
 
@@ -14,6 +16,7 @@ import { InvoicesService } from 'src/app/services/invoices.service';
 export class ListInvoicesComponent implements OnInit {
   invoiceForm: FormGroup;
   invoices: Invoices[]
+  invoice: Invoices
   contentVisible: boolean
   isEditing: boolean
   invoiceId: number
@@ -34,16 +37,24 @@ export class ListInvoicesComponent implements OnInit {
   constructor(
     private invoicesService: InvoicesService,
     private formBuilder: FormBuilder,
+    private messageService: MessageService,
+    public datepipe: DatePipe,
   ) {}
 
   ngOnInit() {
-    this.invoices = this.invoicesService.findAll();
-    this.contentVisible = false
+    this.invoicesService.findAll().then(
+      (res) => {        
+        this.invoices = res as Invoices[];
+      },
+      (err) => {
+        console.log(err);
+      }
+    );    this.contentVisible = false
     this.paidMoney = 0
   }
 
   getDeliveryStatusVariant(invoices: Invoices) {
-    switch (invoices.deliveryStatus) {
+    switch (invoices.status) {
       case 1:
         return 'warning';
 
@@ -66,25 +77,25 @@ export class ListInvoicesComponent implements OnInit {
     return statusName;
   }
 
-  getPaidStatusVariant(invoices: Invoices) {
-    switch (invoices.paidStatus) {
-      case 1:
-        return 'warning';
+  // getPaidStatusVariant(invoices: Invoices) {
+  //   switch (invoices.paidStatus) {
+  //     case 1:
+  //       return 'warning';
 
-      case 2:
-        return 'success';
+  //     case 2:
+  //       return 'success';
 
-      default:
-        return null;
-    }
-  }
+  //     default:
+  //       return null;
+  //   }
+  // }
 
-  getPaidStatusName(status: number) {
-    let statusName = '';
-    if (status == 1) statusName = 'Remain';
-    else if (status == 2) statusName = 'Paid';
-    return statusName;
-  }
+  // getPaidStatusName(status: number) {
+  //   let statusName = '';
+  //   if (status == 1) statusName = 'Remain';
+  //   else if (status == 2) statusName = 'Paid';
+  //   return statusName;
+  // }
 
   getServiceName(id: number) {
     let statusName = '';
@@ -94,31 +105,23 @@ export class ListInvoicesComponent implements OnInit {
     return statusName;
   }
 
-  save() {
-    console.log("a");
-    
-  }
-
   editRow(invoice: any) {
     this.contentVisible = true
     this.isEditing = true
-    this.invoiceId = invoice.invoiceId
-    this.idAcc = invoice.idAcc
-    this.owned = invoice.owned
-
+    // this.invoiceId = invoice.invoiceId
+    // this.idAcc = invoice.idacc
+    // this.owned = invoice.owned
+    console.log(invoice)
     this.invoiceForm = this.formBuilder.group({
-      invoiceId: invoice.invoiceId,
-      idAcc: invoice.idAcc,
+      idacc: invoice.idacc,
       created: invoice.created,
       total: invoice.total,
       paid: invoice.paid,
       owned: invoice.owned,
-      expectedDate: invoice.expectedDate,
-      completedDate: invoice.completedDate,
+      expectdate: new Date(invoice.expectdate),
+      completeddate: new Date(invoice.completeddate),
       description: invoice.description,
-      deliveryStatus: invoice.deliveryStatus,
-      paidStatus: invoice.paidStatus,
-      paidMoney: this.paidMoney
+      status: invoice.status,
     });
   }
 
@@ -127,21 +130,72 @@ export class ListInvoicesComponent implements OnInit {
     this.isEditing = false
   }
 
-  addInvoice() {
+  addRow() {
     this.contentVisible = !this.contentVisible
-    console.log(this.contentVisible)
     this.invoiceForm = this.formBuilder.group({
-      idAcc: null,
-      created: null,
+      idacc: null,
+      created: new Date(),
       total: null,
       paid: null,
       owned: null,
-      expectedDate: null,
-      completedDate: null,
+      expectdate: null,
+      completeddate: null,
       description: null,
-      deliveryStatus: null,
-      paidStatus: null,
-      paidMoney: null
+      status: 1,
     });
+  }
+
+  addInvoice() {
+    var invoice: Invoices = this.invoiceForm.value as Invoices;
+    this.invoicesService.create(invoice).then(
+        res => {
+            var result: any = res as any;
+            if (result.status) {
+                // this.router.navigate(['/']);
+                console.log(result);
+                this.invoices.unshift(result.invoice)
+            } else {
+                this.messageService.add({
+                    severity: 'error',
+                    summary: 'Failed',
+                    detail: 'Cap nhat San Pham That Bai 1'
+                });
+            }
+        },
+        err => {
+            this.messageService.add({
+                severity: 'error',
+                summary: 'Failed',
+                detail: 'Cap nhat San Pham That Bai 2'
+            });
+        }
+    );
+  }
+
+  save() {
+    // var invoice: Invoices = this.invoiceForm.value as Invoices;
+    // invoice.idacc = this.invoice.idacc;
+    // this.invoicesService.create(invoice).then(
+    //     res => {
+    //         var result: any = res as any;
+    //         if (result.status) {
+    //             // this.router.navigate(['/']);
+    //             console.log("a");
+    //         } else {
+    //             this.messageService.add({
+    //                 severity: 'error',
+    //                 summary: 'Failed',
+    //                 detail: 'Cap nhat San Pham That Bai 1'
+    //             });
+    //         }
+    //     },
+    //     err => {
+    //         this.messageService.add({
+    //             severity: 'error',
+    //             summary: 'Failed',
+    //             detail: 'Cap nhat San Pham That Bai 2'
+    //         });
+    //     }
+    // );
   }
 }

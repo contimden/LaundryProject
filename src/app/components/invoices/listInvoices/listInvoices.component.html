@@ -3,7 +3,7 @@
     <div class="card">
       <h3>List invoices</h3>
       <div class="mb-2">
-        <p-button [icon]="contentVisible ? 'pi pi-times' : 'pi pi-plus'" styleClass="p-button-info p-button-rounded" (click)="addInvoice()" *ngIf="!isEditing"></p-button>
+        <p-button [icon]="contentVisible ? 'pi pi-times' : 'pi pi-plus'" styleClass="p-button-info p-button-rounded" (click)="addRow()" *ngIf="!isEditing"></p-button>
       </div>
       <div class="grid" *ngIf="contentVisible">
         <div class="col-12">
@@ -18,30 +18,43 @@
                   Remain money: {{ owned }}
                 </div>
                 <div class="col-12 md:col-6 lg:col-4">
-                  <div>Money</div>
-                  <!-- <input type="text" class="mt-1 w-full" pInputText formControlName="paidMoney" /> -->
-                  <p-inputNumber inputId="integeronly" autoWidth="false" [style]="{'width':'100%'}"  formControlName="paidMoney"> </p-inputNumber>
+                  <div>Account id</div>
+                  <input type="text" class="mt-1 w-full" pInputText formControlName="idacc" />
                 </div>
                 <div class="col-12 md:col-6 lg:col-4">
-                  <div>Delivery status</div>
-                  <p-dropdown [options]="deliveryOptions" autoWidth="false" [style]="{'width':'100%'}" formControlName="deliveryStatus" optionLabel="label" optionValue="value"></p-dropdown>
+                  <div>Total</div>
+                  <input type="text" class="mt-1 w-full" pInputText formControlName="total" />
                 </div>
                 <div class="col-12 md:col-6 lg:col-4">
-                  <div>Paid status</div>
-                  <p-dropdown [options]="paidOptions" formControlName="paidStatus" optionLabel="label" optionValue="value"></p-dropdown>
+                  <div>Paid</div>
+                  <input type="text" class="mt-1 w-full" pInputText formControlName="paid" />
+                </div>
+                <div class="col-12 md:col-6 lg:col-4">
+                  <div>Owned</div>
+                  <input type="text" class="mt-1 w-full" pInputText formControlName="owned" />
+                </div>
+                <div class="col-12 md:col-6 lg:col-4">
+                  <div>Expect date</div>
+                  <p-calendar [style]="{'width':'100%'}" dateFormat="dd-mm-yy" formControlName="expectdate"></p-calendar>
+                </div>
+                <div class="col-12 md:col-6 lg:col-4">
+                  <div>Completed date</div>
+                  <p-calendar [style]="{'width':'100%'}" dateFormat="dd-mm-yy" formControlName="completeddate"></p-calendar>
                 </div>
                 <div class="col-12 md:col-6 lg:col-4">
                   <div>Description</div>
-                  <label class="font-bold mr-1">Description</label>
-                  <input type="text" pInputText formControlName="description" />
+                  <input type="text" class="mt-1 w-full" pInputText formControlName="description" />
                 </div>
-                <!-- form button -->
+                <div class="col-12 md:col-6 lg:col-4">
+                  <div>Status</div>
+                  <p-dropdown [options]="deliveryOptions" autoWidth="false" [style]="{'width':'100%'}" formControlName="status" optionLabel="label" optionValue="value"></p-dropdown>
+                </div>
                 <div class="col-12 flex justify-content-end">
                   <p-button
                     [label]="isEditing ? 'Update' : 'Create'"
                     class="mr-2"
                     styleClass="p-button-outlined p-button-success"
-                    (click)="save()"
+                    (click)="addInvoice()"
                   ></p-button>
                   <p-button
                     label="Cancel"
@@ -55,7 +68,7 @@
         </div>
       </div>
       <!-- table -->
-      <p-table [value]="invoices" dataKey="invoiceId" class="mt-1">
+      <p-table [value]="invoices" dataKey="id" class="mt-1">
         <ng-template pTemplate="header">
           <tr>
             <th [ngStyle]="{'width':'200px'}">Action</th>
@@ -64,8 +77,7 @@
             <th>Total</th>
             <th>Paid</th>
             <th>Owned</th>
-            <th>Paid Status</th>
-            <th>Delivery Status</th>
+            <th>Status</th>
             <th>Description</th>
           </tr>
         </ng-template>
@@ -75,23 +87,16 @@
               <p-button class="mr-1" icon="pi pi-pencil" styleClass="p-button-info" (click)="editRow(invoice)"></p-button>
               <p-button [icon]="expanded ? 'pi pi-eye-slash' : 'pi pi-eye'" styleClass="p-button-success" [pRowToggler]="invoice"></p-button>
             </td>
-            <td>{{ invoice.invoiceId }}</td>
-            <td>{{ invoice.idAcc }}</td>
+            <td>{{ invoice.id }}</td>
+            <td>{{ invoice.idacc }}</td>
             <td>{{ invoice.total }}</td>
             <td>{{ invoice.paid }}</td>
             <td>{{ invoice.owned }}</td>
             <td>
               <p-tag
-                [value]="getDeliveryStatusName(invoice.deliveryStatus)"
+                [value]="getDeliveryStatusName(invoice.status)"
                 [severity]="getDeliveryStatusVariant(invoice)"
               ></p-tag>
-            </td>
-            <td>
-              <p-tag
-                [value]="getPaidStatusName(invoice.paidStatus)"
-                [severity]="getPaidStatusVariant(invoice)"
-              ></p-tag>
-            </td>
             <td>{{ invoice.description }}</td>
           </tr>
         </ng-template>
@@ -102,24 +107,27 @@
               <div class="grid">
                 <div class="col-6">
                   <div class="p-3 pt-0">
-                    <b>Created: </b>{{ invoice.created }}
+                    <b>Created: </b>{{ invoice.created | date:'mediumDate' }}
                   </div>
                   <div class="p-3 pt-0">
-                    <b>Expected Date: </b>{{ invoice.expectedDate }}
+                    <b>Expected Date: </b>{{ invoice.expectdate | date:'mediumDate' }}
                   </div>
                   <div class="p-3 pt-0 pb-0">
-                    <b>Completed Date: </b>{{ invoice.completedDate }}
+                    <b>Completed Date: </b>{{ invoice.completeddate | date:'mediumDate' }}
                   </div>
                 </div>
                 <div class="col-6">
                   <div class="p-3 pt-0">
-                    <b>Services: </b>{{ getServiceName(invoice.serviceId) }}
+                    <b>Services: </b>
+                    <!-- {{ getServiceName(invoice.serviceId) }} -->
                   </div>
                   <div class="p-3 pt-0">
-                    <b>Color: </b>{{ invoice.color }}
+                    <b>Color: </b>
+                    <!-- {{ invoice.color }} -->
                   </div>
                   <div class="p-3 pt-0">
-                    <b>Quantity: </b>{{ invoice.quantity }}
+                    <b>Quantity: </b>
+                    <!-- {{ invoice.quantity }} -->
                   </div>
                 </div>
               </div>
