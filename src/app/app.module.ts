@@ -7,8 +7,12 @@ import { LayoutModule } from './components/layout/layout.module';
 import { InvoicesService } from './services/invoices.service';
 import { AccountService } from './services/account.service';
 import { AccountAPIService } from './services/accountAPI.service';
-import { BaseURLService } from './services/baseURL.service';
 import { InvoicesAPIService } from './services/invoicesAPI.service';
+import { BaseUrlService } from './services/baseurl.service';
+import { ConfirmationService, MessageService } from 'primeng/api';
+import { ToastModule } from 'primeng/toast';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+
 
 @NgModule({
   declarations: [
@@ -18,13 +22,18 @@ import { InvoicesAPIService } from './services/invoicesAPI.service';
     BrowserModule,
     AppRoutingModule,
     LayoutModule,
+    ConfirmDialogModule,
+    ToastModule
+   
   ],
   providers: [
     InvoicesService,
     AccountService,
-    BaseURLService,
     AccountAPIService,
-    InvoicesAPIService
+    InvoicesAPIService,
+    BaseUrlService,
+    MessageService,
+    ConfirmationService
   ],
   bootstrap: [AppComponent]
 })

@@ -1,22 +1,22 @@
 import { Injectable } from "@angular/core";
 import { Invoices } from "../models/invoices.model";
-import { BaseURLService } from "./baseURL.service";
 import { HttpClient } from "@angular/common/http";
 import { lastValueFrom } from "rxjs";
+import { BaseUrlService } from "./baseurl.service";
 
 @Injectable()
 
 export class InvoicesAPIService {
   constructor(
-    private baseURLService: BaseURLService,
+    private baseUrlService: BaseUrlService,
     private httpClient: HttpClient
   ) { }
 
   async findAll() {
-    return await lastValueFrom(this.httpClient.get(this.baseURLService.getBaseUrl() + 'invoice/findall'));
+    return await lastValueFrom(this.httpClient.get(this.baseUrlService.getBaseUrl() + 'invoice/findall'));
   }
 
   async create(invoice: Invoices) {
-    return await lastValueFrom(this.httpClient.post(this.baseURLService.getBaseUrl() + 'invoice/create', invoice));
+    return await lastValueFrom(this.httpClient.post(this.baseUrlService.getBaseUrl() + 'invoice/create', invoice));
   }
 }

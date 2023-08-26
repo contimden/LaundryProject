@@ -17,14 +17,14 @@ export class MenuComponent implements OnInit {
             {
                 label: 'Home',
                 items: [
-                    { label: 'Dashboard', icon: 'pi pi-fw pi-home', routerLink: ['/'] },
-                    { label: 'Account', icon: 'pi pi-fw pi-home', routerLink: ['/account/account'] }
+                    { label: 'Dashboard', icon: 'pi pi-fw pi-home', routerLink: ['/admin'] },
+                    { label: 'Account', icon: 'pi pi-fw pi-home', routerLink: ['/admin/account/account'] }
                 ]
             },
             {
                 label: 'Services',
                 items: [
-                    { label: 'Laundry serivces', icon: 'pi pi-fw pi-th-large', routerLink: ['/laundry/laundry-services'] },
+                    { label: 'Laundry serivces', icon: 'pi pi-fw pi-th-large', routerLink: ['/admin/laundry/laundry-services'] },
                     // { label: 'List invoices', icon: 'pi pi-fw pi-file', routerLink: ['/invoices/list-invoices'] },
                 ]
             },

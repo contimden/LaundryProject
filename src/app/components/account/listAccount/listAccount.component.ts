@@ -27,6 +27,7 @@ export class ListAccountComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+<<<<<<< HEAD
     this.accountAPIService.findAll().then(
       (res) => {        
         this.accounts = res as Account[];
@@ -35,6 +36,21 @@ export class ListAccountComponent implements OnInit {
         console.log(err);
       }
     );
+=======
+
+ 
+    this.accountService.findall().then(
+      res => {
+        this.accounts = res as Account[];
+        this.contentVisible = false;
+    },
+    err => {
+        console.log(err);
+    }
+    )
+    
+  }
+>>>>>>> 3bb5e97584489915e9196ab87503a9b3c374ccdb
 
     this.contentVisible = false
   }
