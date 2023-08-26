@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Account } from 'src/app/models/account.model';
-import { AccountAPIService } from 'src/app/services/accountAPI.service';
+import { AccountService } from 'src/app/services/account.service';
 import { MessageService } from "primeng/api";
 
 @Component({
@@ -21,14 +21,13 @@ export class ListAccountComponent implements OnInit {
   file: File;
 
   constructor(
-    private accountAPIService: AccountAPIService,
+    private accountService: AccountService,
     private formBuilder: FormBuilder,
     private messageService: MessageService
   ) {}
 
   ngOnInit() {
-<<<<<<< HEAD
-    this.accountAPIService.findAll().then(
+    this.accountService.findAll().then(
       (res) => {        
         this.accounts = res as Account[];
       },
@@ -36,21 +35,6 @@ export class ListAccountComponent implements OnInit {
         console.log(err);
       }
     );
-=======
-
- 
-    this.accountService.findall().then(
-      res => {
-        this.accounts = res as Account[];
-        this.contentVisible = false;
-    },
-    err => {
-        console.log(err);
-    }
-    )
-    
-  }
->>>>>>> 3bb5e97584489915e9196ab87503a9b3c374ccdb
 
     this.contentVisible = false
   }
@@ -105,7 +89,7 @@ export class ListAccountComponent implements OnInit {
     var formData = new FormData();
     formData.append('file', this.file);
     formData.append('strAccount', JSON.stringify(account));
-    this.accountAPIService.update(formData).then(
+    this.accountService.update(formData).then(
         res => {
             var result: any = res as any;
             if (result.status) {

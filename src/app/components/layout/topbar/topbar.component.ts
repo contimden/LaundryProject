@@ -29,7 +29,7 @@ export class TopBarComponent {
   ) {}
 
   ngOnInit() {
-    this.accountService.findbyid(1).then(
+    this.accountService.findById(1).then(
       res => {
         this.account = res as Account;
     },

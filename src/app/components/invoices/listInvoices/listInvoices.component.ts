@@ -4,7 +4,6 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { MessageService } from 'primeng/api';
 import { Invoices } from 'src/app/models/invoices.model';
 import { InvoicesService } from 'src/app/services/invoices.service';
-import { InvoicesAPIService } from 'src/app/services/invoicesAPI.service';
 
 @Component({
   templateUrl: './listInvoices.component.html',
@@ -36,14 +35,14 @@ export class ListInvoicesComponent implements OnInit {
   ];
 
   constructor(
-    private invoicesAPIService: InvoicesAPIService,
+    private invoicesService: InvoicesService,
     private formBuilder: FormBuilder,
     private messageService: MessageService,
     public datepipe: DatePipe,
   ) {}
 
   ngOnInit() {
-    this.invoicesAPIService.findAll().then(
+    this.invoicesService.findAll().then(
       (res) => {        
         this.invoices = res as Invoices[];
       },
@@ -148,7 +147,7 @@ export class ListInvoicesComponent implements OnInit {
 
   addInvoice() {
     var invoice: Invoices = this.invoiceForm.value as Invoices;
-    this.invoicesAPIService.create(invoice).then(
+    this.invoicesService.create(invoice).then(
         res => {
             var result: any = res as any;
             if (result.status) {
@@ -176,7 +175,7 @@ export class ListInvoicesComponent implements OnInit {
   save() {
     // var invoice: Invoices = this.invoiceForm.value as Invoices;
     // invoice.idacc = this.invoice.idacc;
-    // this.invoicesAPIService.create(invoice).then(
+    // this.invoicesService.create(invoice).then(
     //     res => {
     //         var result: any = res as any;
     //         if (result.status) {
