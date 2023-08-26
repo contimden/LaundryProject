@@ -12,10 +12,11 @@ import { AccountService } from 'src/app/services/account.service';
   `]
 })
 export class ListAccountComponent implements OnInit {
-  account: Account[]
+  accounts: Account[]
   contentVisible: boolean
   isEditing: boolean
   accountForm: FormGroup;
+  account: Account;
 
   constructor(
     private accountService: AccountService,
@@ -23,8 +24,18 @@ export class ListAccountComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.account = this.accountService.findAll();
-    this.contentVisible = false
+
+ 
+    this.accountService.findall().then(
+      res => {
+        this.accounts = res as Account[];
+        this.contentVisible = false;
+    },
+    err => {
+        console.log(err);
+    }
+    )
+    
   }
 
   save() {

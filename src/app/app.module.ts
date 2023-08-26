@@ -6,6 +6,11 @@ import { AppComponent } from './app.component';
 import { LayoutModule } from './components/layout/layout.module';
 import { InvoicesService } from './services/invoices.service';
 import { AccountService } from './services/account.service';
+import { BaseUrlService } from './services/baseurl.service';
+import { ConfirmationService, MessageService } from 'primeng/api';
+import { ToastModule } from 'primeng/toast';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+
 
 @NgModule({
   declarations: [
@@ -15,10 +20,16 @@ import { AccountService } from './services/account.service';
     BrowserModule,
     AppRoutingModule,
     LayoutModule,
+    ConfirmDialogModule,
+    ToastModule
+   
   ],
   providers: [
     InvoicesService,
-    AccountService
+    AccountService,
+    BaseUrlService,
+    MessageService,
+    ConfirmationService
   ],
   bootstrap: [AppComponent]
 })

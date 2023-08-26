@@ -1,72 +1,50 @@
 import { Injectable } from "@angular/core";
 import { Account } from "../models/account.model";
+import { BaseUrlService } from "./baseurl.service";
+import { HttpClient } from "@angular/common/http";
+import { lastValueFrom } from "rxjs";
 
 @Injectable()
 
 export class AccountService {
-  findAll(): Account[] {
-    return [
-      {
-        id: 1,
-        username: "abc",
-        password: "13",
-        fullname: "Test 1",
-        phone: "12345",
-        email: "test1@gmail.com",
-        photo: "1.jpeg",
-        dob: "2023-01-02",
-        securitycode: "123",
-        type: 1,
-        address: "Số 10 Xô Viết Nghệ Tĩnh, Phường Nguyễn Du, Thành phố Hà Tĩnh, Tỉnh Hà Tĩnh",
-      },
-      {
-        id: 2,
-        username: "abc",
-        password: "13",
-        fullname: "Test 2",
-        phone: "12346",
-        email: "test2@gmail.com",
-        photo: "2.jpg",
-        dob: "2023-01-02",
-        securitycode: "123",
-        type: 2,
-        address: "Số 10 Xô Viết Nghệ Tĩnh, Phường Nguyễn Du, Thành phố Hà Tĩnh, Tỉnh Hà Tĩnh",
-      },
-      {
-        id: 3,
-        username: "abc",
-        password: "13",
-        fullname: "Test 3",
-        phone: "12347",
-        email: "test3@gmail.com",
-        photo: "3.jpeg",
-        dob: "2023-01-02",
-        securitycode: "123",
-        type: 1,
-        address: "Số 10 Xô Viết Nghệ Tĩnh, Phường Nguyễn Du, Thành phố Hà Tĩnh, Tỉnh Hà Tĩnh",
-      },
-      {
-        id: 4,
-        username: "abc",
-        password: "13",
-        fullname: "Test 4",
-        phone: "12348",
-        email: "test4@gmail.com",
-        photo: "4.jpeg",
-        dob: "2023-01-02",
-        securitycode: "123",
-        type: 2,
-        address: "Số 10 Xô Viết Nghệ Tĩnh, Phường Nguyễn Du, Thành phố Hà Tĩnh, Tỉnh Hà Tĩnh",
-      },
-    ];
+  constructor(
+    private baseUrlService: BaseUrlService,
+    private httpClient: HttpClient
+){}
+  async findall(){
+    return await lastValueFrom(this.httpClient.get(this.baseUrlService.getBaseUrl() + 'account/findall'));
   }
-  find(id: number): Account {
-    var accounts: Account[] = this.findAll();
-    for (var i = 0; i < accounts.length; i++) {
-        if (accounts[i].id == id) {
-            return accounts[i];
-        }
-    }
-    return null;
+  async findbyid(keyword: number){
+    return await lastValueFrom(this.httpClient.get(this.baseUrlService.getBaseUrl() + 'account/findbyid/' + keyword));
+  }
+  async findbyusername(keyword: string){
+    return await lastValueFrom(this.httpClient.get(this.baseUrlService.getBaseUrl() + 'account/findbyusername/' + keyword));
+  }
+  async findbytype(keyword: string){
+    return await lastValueFrom(this.httpClient.get(this.baseUrlService.getBaseUrl() + 'account/findbytype/' + keyword));
+  }
+  async checkmail(keyword: string){
+    return await lastValueFrom(this.httpClient.get(this.baseUrlService.getBaseUrl() + 'account/checkemail/' + keyword));
+  }
+  async checkusername(keyword: string){
+    return await lastValueFrom(this.httpClient.get(this.baseUrlService.getBaseUrl() + 'account/checkemail/' + keyword));
+  }
+  async create(formData: FormData){
+    return await lastValueFrom(this.httpClient.post(this.baseUrlService.getBaseUrl() + 'account/create', formData));
+  }
+  async verify(){
+    return await lastValueFrom(this.httpClient.get(this.baseUrlService.getBaseUrl() + 'account/verify'));
+  }
+  async resetpassword(username: string, email: string){
+    return await lastValueFrom(this.httpClient.get(this.baseUrlService.getBaseUrl() + 'account/resetpassword/' + username +"/" + email));
+  }
+  async login(username: string, password: string){
+    return await lastValueFrom(this.httpClient.get(this.baseUrlService.getBaseUrl() + 'account/login/' + username +"&" + password));
+  }
+  async delete(id: number){
+    return await lastValueFrom(this.httpClient.delete(this.baseUrlService.getBaseUrl() + 'account/delete/' + id));
+  }
+  async update(formData: FormData){
+    return await lastValueFrom(this.httpClient.put(this.baseUrlService.getBaseUrl() + 'account/update', formData));
   }
 }
