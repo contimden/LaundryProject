@@ -6,6 +6,9 @@ import { AppComponent } from './app.component';
 import { LayoutModule } from './components/layout/layout.module';
 import { InvoicesService } from './services/invoices.service';
 import { AccountService } from './services/account.service';
+import { AccountAPIService } from './services/accountAPI.service';
+import { BaseURLService } from './services/baseURL.service';
+import { InvoicesAPIService } from './services/invoicesAPI.service';
 
 @NgModule({
   declarations: [
@@ -18,7 +21,10 @@ import { AccountService } from './services/account.service';
   ],
   providers: [
     InvoicesService,
-    AccountService
+    AccountService,
+    BaseURLService,
+    AccountAPIService,
+    InvoicesAPIService
   ],
   bootstrap: [AppComponent]
 })

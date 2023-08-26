@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
-import { ListAccountComponent } from './listAccount.component';
-import { ListAccountRoutingModule } from './listAccount-routing.module';
+import { ListItemsComponent } from './listItems.component';
+import { ListInvoicesRoutingModule } from './listItems-routing.module';
 import { CommonModule } from '@angular/common';
 import { TableModule } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
@@ -10,14 +10,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { InputTextModule } from 'primeng/inputtext';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { DropdownModule } from 'primeng/dropdown';
-import { FileUploadModule } from 'primeng/fileupload';
-import { HttpClientModule } from '@angular/common/http';
-import { MessagesModule } from 'primeng/messages';
-import { MessageService } from 'primeng/api';
 
 @NgModule({
     imports: [
-        ListAccountRoutingModule,
+        ListInvoicesRoutingModule,
         CommonModule,
         TableModule,
         TagModule,
@@ -27,12 +23,8 @@ import { MessageService } from 'primeng/api';
         ReactiveFormsModule,
         InputTextModule,
         InputNumberModule,
-        DropdownModule,
-        FileUploadModule,
-        HttpClientModule,
-        MessagesModule
+        DropdownModule
     ],
-    declarations: [ListAccountComponent],
-    providers: [MessageService]
+    declarations: [ListItemsComponent]
 })
-export class ListAccountModule { }
+export class ListItemsModule { }
