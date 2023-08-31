@@ -1,26 +1,28 @@
-<div class="layout-topbar">
-  <button
-    #menubutton
-    class="p-link layout-menu-button layout-topbar-button"
-    (click)="layoutService.onMenuToggle()"
-  >
-    <i class="pi pi-bars"></i>
-  </button>
+<div class="layout-topbar flex justify-content-between">
+  <div class="flex flex-row align-items-center">
+    <button
+      #menubutton
+      class="p-link layout-menu-button layout-topbar-button"
+      (click)="layoutService.onMenuToggle()"
+    >
+      <i class="pi pi-bars"></i>
+    </button>
 
-  <button
-    #topbarmenubutton
-    class="p-link layout-topbar-menu-button layout-topbar-button"
-    (click)="layoutService.showProfileSidebar()"
-  >
-    <i class="pi pi-ellipsis-v"></i>
-  </button>
+    <button
+      #topbarmenubutton
+      class="p-link layout-topbar-menu-button layout-topbar-button"
+      (click)="layoutService.showProfileSidebar()"
+    >
+      <i class="pi pi-ellipsis-v"></i>
+    </button>
 
-  <a class="layout-topbar-logo" routerLink="">
-    <img src="assets/layout/images/laundry_logo.jpg" alt="logo" />
-    <span>Laundry Project</span>
-  </a>
+    <a class="layout-topbar-logo" routerLink="">
+      <img src="assets/layout/images/laundry_logo.jpg" alt="logo" />
+      <span>Laundry Project</span>
+    </a>
+  </div>
 
-  <div
+  <!-- <div
     #topbarmenu
     class="layout-topbar-menu"
     [ngClass]="{
@@ -87,9 +89,59 @@
         </div>
       </div>
     </p-dialog>
-    <button class="p-link layout-topbar-button" [routerLink]="'/documentation'">
+    <button class="p-link layout-topbar-button">
       <i class="pi pi-cog"></i>
       <span>Settings</span>
     </button>
+  </div> -->
+  <div>
+    <p-menubar [model]="items" class="px-8" [style]="{ background: 'white', border: 0 }"></p-menubar>
+    <p-dialog header="Profile" class="mx-1 px-6" [(visible)]="visibleProfile" [modal]="true" [style]="{ width: '50vw', display: visibleProfile }" [draggable]="false" [resizable]="false">
+      <form action="" method="post" [formGroup]="updateAccountForm" (ngSubmit)="save()" *ngIf="account != null">
+          <div class="grid">
+            <div class="col-8">
+              <div class="grid">
+                <div class="col-6">
+                  <div>Fullname</div>
+                  <input class="mt-1 w-full" type="text" pInputText formControlName="fullname" />
+                </div>
+                <div class="col-6">
+                  <div>Phone</div>
+                  <input class="mt-1 w-full" type="text" pInputText formControlName="phone" />
+                </div>
+                <div class="col-6">
+                  <div>Email</div>
+                  <input class="mt-1 w-full" type="text" pInputText formControlName="email" />
+                </div>
+                <div class="col-6">
+                  <div>DOB</div>
+                  <input class="mt-1 w-full" type="text" pInputText formControlName="dob" />
+                </div>
+                <div class="col-6">
+                  <div>Type</div>
+                  <input class="mt-1 w-full" type="text" pInputText formControlName="type" />
+                </div>
+                <div class="col-12">
+                  <div>Address</div>
+                  <textarea rows="3" class="w-full" pInputTextarea formControlName="address"></textarea>
+                </div>
+              </div>
+            </div>
+            <div class="col-4 flex align-items-center">
+              <img src="{{account.photo}}" width="100%">
+            </div>
+          </div>
+      </form>
+      <div class="grid">
+        <div class="col-12 flex justify-content-end">
+          <p-button
+            label="Update"
+            class="mr-2"
+            styleClass="p-button-outlined p-button-success"
+            (click)="save()"
+          ></p-button>
+        </div>
+      </div>
+    </p-dialog>
   </div>
 </div>

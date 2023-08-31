@@ -5,8 +5,8 @@ export class Invoices {
   total: number
   paid: number
   owned: number
-  expectedDate: string
-  completedDate: string
+  expectdate: string
+  completeddate: string
   description: string
   status: number
 }

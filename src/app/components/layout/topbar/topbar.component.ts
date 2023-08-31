@@ -10,11 +10,13 @@ import { FormBuilder, FormGroup } from '@angular/forms';
   templateUrl: './topbar.component.html',
 })
 export class TopBarComponent {
-  items!: MenuItem[];
+  // items!: MenuItem[];
   visibleProfile: boolean = false;
   accounts: Account[];
   account: Account;
-  updateAccountForm: FormGroup
+  updateAccountForm: FormGroup;
+  items: MenuItem[] | undefined;
+  id: number
 
   @ViewChild('menubutton') menuButton!: ElementRef;
 
@@ -25,38 +27,79 @@ export class TopBarComponent {
   constructor(
     public layoutService: LayoutService,
     public accountService: AccountService,
-    private formBuilder: FormBuilder,
+    private formBuilder: FormBuilder
   ) {}
 
   ngOnInit() {
-    this.accountService.findById(1).then(
-      res => {
+    const id = localStorage.getItem('id')
+    this.id = parseInt(id)
+    this.accountService.findById(this.id).then(
+      (res) => {
         this.account = res as Account;
-    },
-    err => {
+      },
+      (err) => {
         console.log(err);
-    }
-    )
+      }
+    );
     this.updateAccountForm = this.formBuilder.group({
-      id: 1,
-      username: "abc",
-      password: "13",
-      fullname: "Test",
-      phone: "09090909090",
-      email: "test@gmail.com",
-      photo: "4.jpeg",
-      dob: "2023-01-02",
-      securitycode: "123",
-      type: 1,
-      address: "Số 10 Xô Viết Nghệ Tĩnh, Phường Nguyễn Du, Thành phố Hà Tĩnh, Tỉnh Hà Tĩnh",
+      id: null,
+      fullname: null,
+      phone: null,
+      email: null,
+      photo: null,
+      dob: null,
+      type: null,
+      address: null,
     });
+    this.items = [
+      {
+        label: 'Users',
+        icon: '',
+        items: [
+          {
+            label: 'Profile',
+            icon: 'pi pi-fw pi-user',
+            command: () => this.showDialog(),
+          },
+          {
+            label: 'Reset password',
+            icon: 'pi pi-fw pi-cog',
+            command: () => this.changePassword(),
+          },
+          {
+            label: 'Logout',
+            icon: 'pi pi-fw pi-power-off',
+            command: () => this.logout(),
+            routerLink: ['/login']
+          },
+        ],
+      }
+    ];
   }
 
   showDialog() {
     this.visibleProfile = true;
-  
+    console.log(this.account)
+    this.updateAccountForm = this.formBuilder.group({
+      id: this.account.id,
+      fullname: this.account.fullname,
+      phone: this.account.phone,
+      email: this.account.email,
+      photo: this.account.photo,
+      dob: this.account.dob,
+      type: this.account.type,
+      address: this.account.address
+    });
     console.log(this.account);
   }
 
+  logout() {
+    localStorage.clear();
+  }
+
   save() {}
+
+  changePassword() {
+    this.accountService.resetPassword(this.account.username, this.account.email)
+  }
 }

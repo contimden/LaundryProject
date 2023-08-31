@@ -14,25 +14,29 @@ import { PasswordModule } from 'primeng/password';
 import { CheckboxModule } from 'primeng/checkbox';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ToastModule } from 'primeng/toast';
+import { MessagesModule } from 'primeng/messages';
+import { MessageService } from 'primeng/api';
 
 @NgModule({
-    imports: [
-        LoginRoutingModule,
-        CommonModule,
-        TableModule,
-        TagModule,
-        ButtonModule,
-        StyleClassModule,
-        FormsModule,
-        ReactiveFormsModule,
-        InputTextModule,
-        InputNumberModule,
-        DropdownModule,
-        PasswordModule,
-        CheckboxModule,
-        ConfirmDialogModule,
-        ToastModule
-    ],
-    declarations: [LoginComponent]
+  imports: [
+    LoginRoutingModule,
+    CommonModule,
+    TableModule,
+    TagModule,
+    ButtonModule,
+    StyleClassModule,
+    FormsModule,
+    ReactiveFormsModule,
+    InputTextModule,
+    InputNumberModule,
+    DropdownModule,
+    PasswordModule,
+    CheckboxModule,
+    ConfirmDialogModule,
+    ToastModule,
+    MessagesModule,
+  ],
+  providers: [MessageService],
+  declarations: [LoginComponent],
 })
-export class LoginModule { }
+export class LoginModule {}

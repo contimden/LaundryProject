@@ -21,6 +21,7 @@
       <div
         class="w-full surface-card py-8 px-5 sm:px-8"
         style="border-radius: 53px"
+        *ngIf="!registerVisible"
       >
         <div class="text-center mb-5">
           <img
@@ -29,31 +30,142 @@
             height="100"
             class="mb-3"
           />
-          <div class="text-900 text-3xl font-medium mb-3">Welcome, Isabel!</div>
+          <div class="text-900 text-3xl font-medium mb-3">Welcome!</div>
           <span class="text-600 font-medium">Sign in to continue</span>
         </div>
 
         <div>
-          <form action="" method="post" [formGroup]="loginForm" (ngSubmit)="login()">
-            <label for="email1" class="block text-900 text-xl font-medium mb-2">Username Or Email</label>
-            <input id="email1" type="text" formControlName="username" placeholder="Email address or Username" pInputText class="w-full md:w-30rem mb-5" style="padding: 1rem"/>
+          <form action="" method="post" [formGroup]="loginForm">
+            <label
+              for="username1"
+              class="block text-900 text-xl font-medium mb-2"
+              >Username</label
+            >
+            <input
+              id="username1"
+              type="text"
+              formControlName="username"
+              placeholder="Username"
+              pInputText
+              class="w-full md:w-30rem mb-5"
+              style="padding: 1rem"
+            />
 
-            <label for="password1" class="block text-900 font-medium text-xl mb-2">Password</label>
-            <p-password id="password1" formControlName="password"  [toggleMask]="true" placeholder="Password"   styleClass="mb-5" inputStyleClass="w-full p-3 md:w-30rem"></p-password>
+            <label
+              for="password1"
+              class="block text-900 font-medium text-xl mb-2"
+              >Password</label
+            >
+            <!-- <input id="password1" type="text" formControlName="password" placeholder="Password" pInputText class="w-full md:w-30rem mb-5" style="padding: 1rem"/> -->
+            <p-password
+              id="password1"
+              formControlName="password"
+              [feedback]="false"
+              [toggleMask]="true"
+              placeholder="Password"
+              styleClass="mb-5"
+              inputStyleClass="w-full p-3 md:w-30rem"
+            ></p-password>
 
-            <div class="flex align-items-center justify-content-between mb-5 gap-5">
-              <div class="flex align-items-center">
-                <p-checkbox id="rememberme1" [binary]="true" styleClass="mr-2"></p-checkbox>
-                <label for="rememberme1">Remember me</label>
-              </div>
-              <a class="font-medium no-underline ml-2 text-right cursor-pointer" style="color: var(--primary-color)"> Forgot password? </a>
+            <div
+              class="flex align-items-center justify-content-between mb-5 gap-5"
+            >
+              <span></span>
+              <span
+                class="font-medium no-underline ml-2 text-right cursor-pointer"
+                style="color: var(--primary-color)"
+                (click)="openRegister()"
+                >Register</span
+              >
             </div>
-            <input type="submit" value = "Login"  class="w-full p-3 text-xl" pRipple style="background: blue">
           </form>
+        </div>
+        <div>
+          <p-button
+            class="w-full flex justify-content-center"
+            label="Login"
+            (click)="login()"
+          ></p-button>
+        </div>
+      </div>
+      <div
+        class="w-full surface-card py-8 px-5 sm:px-8"
+        style="border-radius: 53px"
+        *ngIf="registerVisible"
+      >
+        <div>
+          <span
+            class="font-medium no-underline ml-2 text-right cursor-pointer"
+            style="color: var(--primary-color)"
+            (click)="returnLogin()"
+            ><i class="pi pi-arrow-left"></i> Return</span
+          >
+        </div>
+        <div class="text-center mb-5">
+          <img
+            src="assets/layout/images/laundry_logo.jpg"
+            alt="Image"
+            height="100"
+            class="mb-3"
+          />
+          <div class="text-900 text-3xl font-medium mb-3">Register</div>
+        </div>
+
+        <div>
+          <form action="" method="post" [formGroup]="registerForm">
+            <label for="email2" class="block text-900 text-xl font-medium mb-2"
+              >Email</label
+            >
+            <input
+              id="email2"
+              type="text"
+              formControlName="email"
+              placeholder="Email"
+              pInputText
+              class="w-full md:w-30rem mb-5"
+              style="padding: 1rem"
+            />
+
+            <label
+              for="username2"
+              class="block text-900 text-xl font-medium mb-2"
+              >Username</label
+            >
+            <input
+              id="username2"
+              type="text"
+              formControlName="username"
+              placeholder="Username"
+              pInputText
+              class="w-full md:w-30rem mb-5"
+              style="padding: 1rem"
+            />
+
+            <label
+              for="password1"
+              class="block text-900 font-medium text-xl mb-2"
+              >Password</label
+            >
+            <p-password
+              id="password1"
+              formControlName="password"
+              [toggleMask]="true"
+              placeholder="Password"
+              styleClass="mb-5"
+              inputStyleClass="w-full p-3 md:w-30rem"
+            ></p-password>
+          </form>
+        </div>
+        <div>
+          <p-button
+            class="w-full flex justify-content-center"
+            label="Register"
+            (click)="register()"
+          ></p-button>
         </div>
       </div>
     </div>
   </div>
 </div>
-<p-confirmDialog [style]="{width: '50vw'}"></p-confirmDialog>
+<p-confirmDialog [style]="{ width: '50vw' }"></p-confirmDialog>
 <p-toast> </p-toast>

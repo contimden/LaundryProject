@@ -3,56 +3,49 @@
     <div class="card">
       <p-messages></p-messages>
       <h3>List account</h3>
-      <div class="mb-2">
-        <p-button [icon]="contentVisible ? 'pi pi-times' : 'pi pi-plus'" styleClass="p-button-info p-button-rounded" (click)="addAccount()" *ngIf="!isEditing"></p-button>
-      </div>
       <div class="grid" *ngIf="contentVisible">
         <div class="col-12">
           <div class="card">
             <!-- form -->
             <form action="" method="post" [formGroup]="accountForm">
               <div class="grid">
-                <div class="col-12 md:col-8">
-                  <div class="grid">
-                    <div class="col-12 md:col-6" *ngIf="!isEditing">
-                      <div>Username</div>
-                      <input type="text" class="mt-1 w-full" pInputText formControlName="username" />
-                    </div>
-                    <div class="col-12 md:col-6" *ngIf="!isEditing">
-                      <div>Password</div>
-                      <input type="text" class="mt-1 w-full" pInputText formControlName="password" />
-                    </div>
-                    <div class="col-12 md:col-6">
-                      <div>Fullname</div>
-                      <input type="text" class="mt-1 w-full" pInputText formControlName="fullname" />
-                    </div>
-                    <div class="col-12 md:col-6">
-                      <div>Phone</div>
-                      <input type="text" class="mt-1 w-full" pInputText formControlName="phone" />
-                    </div>
-                    <div class="col-12 md:col-6">
-                      <div>Email</div>
-                      <input type="text" class="mt-1 w-full" pInputText formControlName="email" />
-                    </div>
-                    <div class="col-12 md:col-6">
-                      <div>DOB</div>
-                      <input type="text" class="mt-1 w-full" pInputText formControlName="dob" />
-                    </div>
-                    <div class="col-12 md:col-6">
-                      <div>Security code</div>
-                      <input type="text" class="mt-1 w-full" pInputText formControlName="securitycode" />
-                    </div>
-                    <div class="col-12 md:col-6">
-                      <div>Type</div>
-                      <input type="text" class="mt-1 w-full" pInputText formControlName="type" />
-                    </div>
-                    <div class="col-12 md:col-6">
-                      <div>Address</div>
-                      <input type="text" class="mt-1 w-full" pInputText formControlName="address" />
-                    </div>
-                  </div>
+                <div class="col-12 md:col-6" *ngIf="!isEditing">
+                  <div>Username</div>
+                  <input type="text" class="mt-1 w-full" pInputText formControlName="username" />
                 </div>
-                <div class="col-12 md:col-4">
+                <div class="col-12 md:col-6" *ngIf="!isEditing">
+                  <div>Password</div>
+                  <input type="text" class="mt-1 w-full" pInputText formControlName="password" />
+                </div>
+                <div class="col-12 md:col-6">
+                  <div>Fullname</div>
+                  <input type="text" class="mt-1 w-full" pInputText formControlName="fullname" />
+                </div>
+                <div class="col-12 md:col-6">
+                  <div>Phone</div>
+                  <input type="text" class="mt-1 w-full" pInputText formControlName="phone" />
+                </div>
+                <div class="col-12 md:col-6">
+                  <div>Email</div>
+                  <input type="text" class="mt-1 w-full" pInputText formControlName="email" />
+                </div>
+                <div class="col-12 md:col-6">
+                  <div>DOB</div>
+                  <input type="text" class="mt-1 w-full" pInputText formControlName="dob" />
+                </div>
+                <div class="col-12 md:col-6">
+                  <div>Security code</div>
+                  <input type="text" class="mt-1 w-full" pInputText formControlName="securitycode" />
+                </div>
+                <div class="col-12 md:col-6">
+                  <div>Type</div>
+                  <input type="text" class="mt-1 w-full" pInputText formControlName="type" />
+                </div>
+                <div class="col-12 md:col-12">
+                  <div>Address</div>
+                  <input type="text" class="mt-1 w-full" pInputText formControlName="address" />
+                </div>
+                <div class="col-12 md:col-12">
                   <div>Photo</div>
                   <p-fileUpload name="myfile[]" [customUpload]="true" (onSelect)="selectFile($event)" ></p-fileUpload>
                 </div>
@@ -86,7 +79,6 @@
             <th>Email</th>
             <th>Photo</th>
             <th>DOB</th>
-            <th>Security code</th>
             <th>Type</th>
           </tr>
         </ng-template>
@@ -104,8 +96,12 @@
               <img src="{{ account.photo }}" width="70" height="70">
             </td>
             <td>{{ account.dob }}</td>
-            <td>{{ account.securitycode }}</td>
-            <td>{{ account.type }}</td>
+            <td>
+              <p-tag
+                [value]="getAccountTypeName(account.type)"
+                [severity]="getAccountTypeVariant(account)"
+              ></p-tag>
+            </td>
           </tr>
         </ng-template>
         <!-- table expand -->

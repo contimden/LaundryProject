@@ -24,14 +24,10 @@ export class ListInvoicesComponent implements OnInit {
   owned: number
   paidMoney: number
   deliveryOptions: any[] = [
-    { label: 'Pending', value: 1 },
-    { label: 'Ready', value: 2 },
-    { label: 'Delivered', value: 3 },
-  ];
-
-  paidOptions: any[] = [
-    { label: 'Remain', value: 1 },
-    { label: 'Paid', value: 2 },
+    { label: 'New', value: 1 },
+    { label: 'Picked up', value: 2 },
+    { label: 'Washed', value: 3 },
+    { label: 'Delivered', value: 4 },
   ];
 
   constructor(
@@ -56,13 +52,16 @@ export class ListInvoicesComponent implements OnInit {
   getDeliveryStatusVariant(invoices: Invoices) {
     switch (invoices.status) {
       case 1:
-        return 'warning';
+        return 'danger';
 
       case 2:
-        return 'success';
+        return 'warning';
 
       case 3:
         return 'primary';
+
+      case 4:
+        return 'info';
 
       default:
         return null;
@@ -71,9 +70,10 @@ export class ListInvoicesComponent implements OnInit {
 
   getDeliveryStatusName(status: number) {
     let statusName = '';
-    if (status == 1) statusName = 'Pending';
-    else if (status == 2) statusName = 'Ready';
-    else if (status == 3) statusName = 'Delivered';
+    if (status == 1) statusName = 'New';
+    else if (status == 2) statusName = 'Picked up';
+    else if (status == 3) statusName = 'Washed';
+    else if (status == 4) statusName = 'Delivered';
     return statusName;
   }
 
@@ -147,6 +147,10 @@ export class ListInvoicesComponent implements OnInit {
 
   addInvoice() {
     var invoice: Invoices = this.invoiceForm.value as Invoices;
+    console.log(invoice)
+    invoice.expectdate = this.datepipe.transform(invoice.expectdate, 'dd/MM/yyyy')
+    invoice.completeddate = this.datepipe.transform(invoice.completeddate, 'dd/MM/yyyy')
+    invoice.created = this.datepipe.transform(invoice.created, 'dd/MM/yyyy')
     this.invoicesService.create(invoice).then(
         res => {
             var result: any = res as any;

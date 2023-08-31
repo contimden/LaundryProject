@@ -33,7 +33,7 @@ export class AccountService {
     return await lastValueFrom(this.httpClient.get(this.baseURLService.getBaseUrl() + 'account/checkemail/' + keyword));
   }
   async checkUsername(keyword: string){
-    return await lastValueFrom(this.httpClient.get(this.baseURLService.getBaseUrl() + 'account/checkemail/' + keyword));
+    return await lastValueFrom(this.httpClient.get(this.baseURLService.getBaseUrl() + 'account/checkusername/' + keyword));
   }
   async create(formData: FormData){
     return await lastValueFrom(this.httpClient.post(this.baseURLService.getBaseUrl() + 'account/create', formData));
