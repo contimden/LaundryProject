@@ -19,6 +19,8 @@ import { LayoutComponent } from './layout.component';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
 import { InputTextareaModule } from 'primeng/inputtextarea';
+import { DropdownModule } from 'primeng/dropdown';
+import { MenubarModule } from 'primeng/menubar';
 
 @NgModule({
     declarations: [
@@ -44,7 +46,9 @@ import { InputTextareaModule } from 'primeng/inputtextarea';
         ButtonModule,
         DialogModule,
         ReactiveFormsModule,
-        InputTextareaModule
+        InputTextareaModule,
+        DropdownModule,
+        MenubarModule
     ],
     exports: [LayoutComponent]
 })
