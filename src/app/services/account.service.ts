@@ -47,6 +47,9 @@ export class AccountService {
   async login(username: string, password: string){
     return await lastValueFrom(this.httpClient.get(this.baseURLService.getBaseUrl() + 'account/login/' + username +"&" + password));
   }
+  async loginadmin(username: string, password: string){
+    return await lastValueFrom(this.httpClient.get(this.baseURLService.getBaseUrl() + 'account/loginadmin/' + username +"&" + password));
+  }
   async delete(id: number){
     return await lastValueFrom(this.httpClient.delete(this.baseURLService.getBaseUrl() + 'account/delete/' + id));
   }

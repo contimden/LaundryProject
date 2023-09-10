@@ -1,7 +1,7 @@
 import { Component, OnDestroy, Renderer2, ViewChild } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { filter, Subscription } from 'rxjs';
-import { LayoutService } from "../../services/layout.service";
+import { LayoutService } from "../../../services/layout.service";
 import { SidebarComponent } from "./sidebar/sidebar.component";
 import { TopBarComponent } from './topbar/topbar.component';
 
