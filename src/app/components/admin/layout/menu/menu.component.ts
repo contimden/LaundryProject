@@ -1,6 +1,6 @@
 import { OnInit } from '@angular/core';
 import { Component } from '@angular/core';
-import { LayoutService } from '../../../services/layout.service';
+import { LayoutService } from '../../../../services/layout.service';
 
 @Component({
   selector: 'app-menu',
@@ -22,12 +22,12 @@ export class MenuComponent implements OnInit {
           {
             label: 'Dashboard',
             icon: 'pi pi-fw pi-home',
-            routerLink: ['/'],
+            routerLink: ['/admin/'],
           },
           {
             label: 'Account',
             icon: 'pi pi-fw pi-home',
-            routerLink: ['/account/account'],
+            routerLink: ['/admin/account/account'],
             // visible: this.type == 4
           },
         ],
@@ -39,7 +39,7 @@ export class MenuComponent implements OnInit {
           {
             label: 'Laundry serivces',
             icon: 'pi pi-fw pi-th-large',
-            routerLink: ['/laundry/laundry-services'],
+            routerLink: ['/admin/laundry/laundry-services'],
             visible: this.type < 4
           },
           // { label: 'List invoices', icon: 'pi pi-fw pi-file', routerLink: ['/invoices/list-invoices'] },
@@ -51,12 +51,12 @@ export class MenuComponent implements OnInit {
           {
             label: 'List invoices',
             icon: 'pi pi-fw pi-file',
-            routerLink: ['/invoices/list-invoices'],
+            routerLink: ['/admin/invoices/list-invoices'],
           },
           {
             label: 'List items',
             icon: 'pi pi-fw pi-file',
-            routerLink: ['/invoices/list-items'],
+            routerLink: ['/admin/invoices/list-items'],
           },
         ],
       },
