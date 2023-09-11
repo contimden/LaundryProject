@@ -1,28 +1,31 @@
 import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { Invoices } from 'src/app/models/invoices.model';
 import { InvoicesService } from 'src/app/services/invoices.service';
 
 @Component({
   templateUrl: './listInvoices.component.html',
-  styles: [`
-    .p-inputnumber: {
-      width: 100%;
-    }
-  `]
+  styles: [
+    `
+      .p-inputnumber: {
+        width: 100%;
+      }
+    `,
+  ],
 })
 export class ListInvoicesComponent implements OnInit {
   invoiceForm: FormGroup;
-  invoices: Invoices[]
-  invoice: Invoices
-  contentVisible: boolean
-  isEditing: boolean
-  invoiceId: number
-  idAcc: number
-  owned: number
-  paidMoney: number
+  invoices: Invoices[];
+  invoice: Invoices;
+  contentVisible: boolean;
+  isEditing: boolean;
+  invoiceId: number;
+  idAcc: number;
+  owned: number;
+  paidMoney: number;
   deliveryOptions: any[] = [
     { label: 'New', value: 1 },
     { label: 'Picked up', value: 2 },
@@ -35,18 +38,19 @@ export class ListInvoicesComponent implements OnInit {
     private formBuilder: FormBuilder,
     private messageService: MessageService,
     public datepipe: DatePipe,
+    private router: Router
   ) {}
 
   ngOnInit() {
     this.invoicesService.findAll().then(
-      (res) => {        
+      (res) => {
         this.invoices = res as Invoices[];
       },
       (err) => {
         console.log(err);
       }
-    );    this.contentVisible = false
-    this.paidMoney = 0
+    );
+    this.contentVisible = false;
   }
 
   getDeliveryStatusVariant(invoices: Invoices) {
@@ -77,26 +81,6 @@ export class ListInvoicesComponent implements OnInit {
     return statusName;
   }
 
-  // getPaidStatusVariant(invoices: Invoices) {
-  //   switch (invoices.paidStatus) {
-  //     case 1:
-  //       return 'warning';
-
-  //     case 2:
-  //       return 'success';
-
-  //     default:
-  //       return null;
-  //   }
-  // }
-
-  // getPaidStatusName(status: number) {
-  //   let statusName = '';
-  //   if (status == 1) statusName = 'Remain';
-  //   else if (status == 2) statusName = 'Paid';
-  //   return statusName;
-  // }
-
   getServiceName(id: number) {
     let statusName = '';
     if (id == 1) statusName = 'By weight';
@@ -106,12 +90,9 @@ export class ListInvoicesComponent implements OnInit {
   }
 
   editRow(invoice: any) {
-    this.contentVisible = true
-    this.isEditing = true
-    // this.invoiceId = invoice.invoiceId
-    // this.idAcc = invoice.idacc
-    // this.owned = invoice.owned
-    console.log(invoice)
+    this.contentVisible = true;
+    this.isEditing = true;
+    console.log(invoice);
     this.invoiceForm = this.formBuilder.group({
       idacc: invoice.idacc,
       created: invoice.created,
@@ -126,12 +107,12 @@ export class ListInvoicesComponent implements OnInit {
   }
 
   cancelEditing() {
-    this.contentVisible = false
-    this.isEditing = false
+    this.contentVisible = false;
+    this.isEditing = false;
   }
 
   addRow() {
-    this.contentVisible = !this.contentVisible
+    this.contentVisible = !this.contentVisible;
     this.invoiceForm = this.formBuilder.group({
       idacc: null,
       created: new Date(),
@@ -147,36 +128,55 @@ export class ListInvoicesComponent implements OnInit {
 
   addInvoice() {
     var invoice: Invoices = this.invoiceForm.value as Invoices;
-    console.log(invoice)
-    invoice.expectdate = this.datepipe.transform(invoice.expectdate, 'dd/MM/yyyy')
-    invoice.completeddate = this.datepipe.transform(invoice.completeddate, 'dd/MM/yyyy')
-    invoice.created = this.datepipe.transform(invoice.created, 'dd/MM/yyyy')
-    this.invoicesService.create(invoice).then(
-        res => {
-            var result: any = res as any;
-            if (result.status) {
-                // this.router.navigate(['/']);
-                console.log(result);
-                this.invoices.unshift(result.invoice)
-            } else {
-                this.messageService.add({
-                    severity: 'error',
-                    summary: 'Failed',
-                    detail: 'Cap nhat San Pham That Bai 1'
-                });
-            }
-        },
-        err => {
+
+    if (invoice.total <= invoice.paid) {
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Failed',
+        detail: 'Total money must be higher or equal than paid money',
+        life: 1000
+      });
+    } else {
+      invoice.expectdate = this.datepipe.transform(
+        invoice.expectdate,
+        'dd/MM/yyyy'
+      );
+      invoice.completeddate = invoice.expectdate;
+      invoice.created = this.datepipe.transform(invoice.created, 'dd/MM/yyyy');
+      invoice.owned = invoice.total - invoice.paid;
+
+      this.invoicesService.create(invoice).then(
+        (res) => {
+          var result: any = res as any;
+          if (result.status) {
+            console.log(result);
+            this.router.navigate([
+              '/admin/invoices/invoice-details',
+              { id: result.id },
+            ]);
+            // this.invoices.unshift(result.invoice)
+          } else {
             this.messageService.add({
-                severity: 'error',
-                summary: 'Failed',
-                detail: 'Cap nhat San Pham That Bai 2'
+              severity: 'error',
+              summary: 'Failed',
+              detail: 'Add invoice failed',
+              life: 1000
             });
+          }
+        },
+        (err) => {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Failed',
+            detail: 'Add invoice failed',
+            life: 1000
+          });
         }
-    );
+      );
+    }
   }
 
-  save() {
+  updateInvoice() {
     // var invoice: Invoices = this.invoiceForm.value as Invoices;
     // invoice.idacc = this.invoice.idacc;
     // this.invoicesService.create(invoice).then(
@@ -189,7 +189,7 @@ export class ListInvoicesComponent implements OnInit {
     //             this.messageService.add({
     //                 severity: 'error',
     //                 summary: 'Failed',
-    //                 detail: 'Cap nhat San Pham That Bai 1'
+    //                 detail: 'Cap nhat San Pham That Bai 1',
     //             });
     //         }
     //     },
@@ -201,5 +201,12 @@ export class ListInvoicesComponent implements OnInit {
     //         });
     //     }
     // );
+  }
+
+  viewInvoiceDetail(invoice: any) {
+    this.router.navigate([
+      '/admin/invoices/invoice-details',
+      { id: invoice.id },
+    ]);
   }
 }

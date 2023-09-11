@@ -10,6 +10,8 @@ import { AccountService } from './services/account.service';
 import { BaseURLService } from './services/base_URL.service';
 import { LayoutModule } from './components/admin/layout/layout.module';
 import {StyleClassModule} from 'primeng/styleclass';
+import { HttpClientModule } from '@angular/common/http';
+import { InvoiceDetailService } from './services/invoiceDetail.service';
 
 
 @NgModule({
@@ -22,14 +24,15 @@ import {StyleClassModule} from 'primeng/styleclass';
     ConfirmDialogModule,
     ToastModule,
     LayoutModule,
-    
+    HttpClientModule
   ],
   providers: [
     InvoicesService,
     AccountService,
     BaseURLService,
     MessageService,
-    ConfirmationService
+    ConfirmationService,
+    InvoiceDetailService
   ],
   bootstrap: [AppComponent]
 })

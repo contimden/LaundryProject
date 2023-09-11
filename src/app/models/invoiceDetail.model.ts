@@ -1,6 +1,7 @@
 export class InvoiceDetail {
-	invoiceId: number
-	serviceId: number
+	id: number
+	idinvoice: number
+	idservice: number
 	quantity: number
 	description: string
 }

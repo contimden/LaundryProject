@@ -1,6 +1,4 @@
 import { NgModule } from '@angular/core';
-import { ListAccountComponent } from './listAccount.component';
-import { ListAccountRoutingModule } from './listAccount-routing.module';
 import { CommonModule } from '@angular/common';
 import { TableModule } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
@@ -15,10 +13,12 @@ import { HttpClientModule } from '@angular/common/http';
 import { MessagesModule } from 'primeng/messages';
 import { MessageService } from 'primeng/api';
 import { CalendarModule } from 'primeng/calendar';
+import { InvoiceDetailsComponent } from './invoiceDetails.component';
+import { InvoiceDetailsRoutingModule } from './invoiceDetails-routing.module';
 
 @NgModule({
     imports: [
-        ListAccountRoutingModule,
+      InvoiceDetailsRoutingModule,
         CommonModule,
         TableModule,
         TagModule,
@@ -34,7 +34,8 @@ import { CalendarModule } from 'primeng/calendar';
         MessagesModule,
         CalendarModule
     ],
-    declarations: [ListAccountComponent],
+    declarations: [InvoiceDetailsComponent],
     providers: [MessageService]
 })
-export class ListAccountModule { }
+
+export class InvoiceDetailsModule {}

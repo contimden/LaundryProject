@@ -1,37 +1,34 @@
 import { Injectable } from "@angular/core";
+import { HttpClient } from "@angular/common/http";
+import { lastValueFrom } from "rxjs";
+import { BaseURLService } from "./base_URL.service";
 import { InvoiceDetail } from "../models/invoiceDetail.model";
 
 @Injectable()
 
 export class InvoiceDetailService {
-//   find(id: number): Product{
-//     var products: Product[] = this.findAll()
-//     for(let i = 0; i < products.length; i++) {
-//       if(products[i].id == id) return products[i]
-//     }
-//     return null
-//   }
+  constructor(
+    private baseURLService: BaseURLService,
+    private httpClient: HttpClient
+  ) { }
 
-  findAll(): InvoiceDetail[] {
-    return [
-      {
-        invoiceId: 1,
-        serviceId: 1,
-        quantity: 10,
-        description: "ao thun"
-      },
-      {
-        invoiceId: 2,
-        serviceId: 2,
-        quantity: 10,
-        description: "ao so mi"
-      },
-      {
-        invoiceId: 3,
-        serviceId: 1,
-        quantity: 10,
-        description: "quan tay"
-      },
-    ];
+  async findByIdInvoice(idinvoice: number) {
+    return await lastValueFrom(this.httpClient.get(this.baseURLService.getBaseUrl() + 'invoicedetails/findbyidinvoice/' + idinvoice));
+  }
+
+  async findByIdService(idinvoice: number) {
+    return await lastValueFrom(this.httpClient.get(this.baseURLService.getBaseUrl() + 'invoicedetails/findbyidservice/' + idinvoice));
+  }
+
+  async create(invoiceDetail: InvoiceDetail) {
+    return await lastValueFrom(this.httpClient.post(this.baseURLService.getBaseUrl() + 'invoicedetails/create', invoiceDetail));
+  }
+
+  async update(invoiceDetail: InvoiceDetail) {
+    return await lastValueFrom(this.httpClient.put(this.baseURLService.getBaseUrl() + 'invoicedetails/update', invoiceDetail));
+  }
+
+  async delete(id: number) {
+    return await lastValueFrom(this.httpClient.delete(this.baseURLService.getBaseUrl() + 'invoicedetails/delete/' + id));
   }
 }
