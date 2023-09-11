@@ -10,6 +10,7 @@ import { AccountService } from './services/account.service';
 import { BaseURLService } from './services/base_URL.service';
 import { LayoutModule } from './components/admin/layout/layout.module';
 import {StyleClassModule} from 'primeng/styleclass';
+import { LaundryServicesService } from './services/laundryService.service';
 import { HttpClientModule } from '@angular/common/http';
 import { InvoiceDetailService } from './services/invoiceDetail.service';
 
@@ -32,6 +33,7 @@ import { InvoiceDetailService } from './services/invoiceDetail.service';
     BaseURLService,
     MessageService,
     ConfirmationService,
+    LaundryServicesService,
     InvoiceDetailService
   ],
   bootstrap: [AppComponent]
