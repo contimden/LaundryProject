@@ -28,6 +28,7 @@ export class MenuComponent implements OnInit {
             label: 'Account',
             icon: 'pi pi-fw pi-home',
             routerLink: ['/account/account'],
+            visible: this.type == 4
           },
         ],
       },

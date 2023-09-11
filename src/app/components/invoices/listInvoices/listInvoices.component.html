@@ -18,7 +18,7 @@
                 <!-- <div class="col-12" *ngIf="isEditing">
                   Remain money: {{ owned }}
                 </div> -->
-                <div class="col-12 md:col-6 lg:col-4">
+                <div class="col-12 md:col-6 lg:col-4" *ngIf="type == 4">
                   <div>Account id</div>
                   <input type="text" class="mt-1 w-full" pInputText formControlName="idacc" />
                 </div>
@@ -32,7 +32,7 @@
                 </div>
                 <div class="col-12 md:col-6 lg:col-4">
                   <div>Expect date</div>
-                  <p-calendar [style]="{'width':'100%'}" dateFormat="dd-mm-yy" formControlName="expectdate"></p-calendar>
+                  <p-calendar [style]="{'width':'100%', 'margin-top': '0.25rem'}" dateFormat="dd-mm-yy" formControlName="expectdate"></p-calendar>
                 </div>
                 <!-- <div class="col-12 md:col-6 lg:col-4">
                   <div>Completed date</div>

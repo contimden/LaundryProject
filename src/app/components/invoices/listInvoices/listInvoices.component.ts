@@ -17,21 +17,25 @@ import { InvoicesService } from 'src/app/services/invoices.service';
   ],
 })
 export class ListInvoicesComponent implements OnInit {
-  invoiceForm: FormGroup
-  invoices: Invoices[]
-  invoice: Invoices
-  contentVisible: boolean
-  isEditing: boolean
-  invoiceId: number
-  idAcc: number
-  owned: number
-  paidMoney: number
+  invoiceForm: FormGroup;
+  invoices: Invoices[];
+  invoice: Invoices;
+  contentVisible: boolean;
+  isEditing: boolean;
+  invoiceId: number;
+  idAcc: number;
+  owned: number;
+  paidMoney: number;
   deliveryOptions: any[] = [
     { label: 'New', value: 1 },
     { label: 'Picked up', value: 2 },
     { label: 'Washed', value: 3 },
     { label: 'Delivered', value: 4 },
   ];
+  type: number
+  id: number
+  expectdateString : string
+  completeddateString: string
 
   constructor(
     private invoicesService: InvoicesService,
@@ -42,14 +46,31 @@ export class ListInvoicesComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.invoicesService.findAll().then(
-      (res) => {
-        this.invoices = res as Invoices[];
-      },
-      (err) => {
-        console.log(err);
-      }
-    );
+    const type = localStorage.getItem('type');
+    const id = localStorage.getItem('id');
+    this.type = parseInt(type);
+    this.id = parseInt(id);
+    if (this.type == 4) {
+      this.invoicesService.findAll().then(
+        (res) => {
+          this.invoices = res as Invoices[];
+        },
+        (err) => {
+          console.log(err);
+        }
+      );
+    } else {
+      this.invoicesService.findById(parseInt(id)).then(
+        (res) => {
+          console.log(res);
+
+          this.invoices = res as Invoices[];
+        },
+        (err) => {
+          console.log(err);
+        }
+      );
+    }
     this.contentVisible = false;
   }
 
@@ -89,18 +110,31 @@ export class ListInvoicesComponent implements OnInit {
     return statusName;
   }
 
-  editRow(invoice: any) {
+  editRow(invoice: any) {    
     this.contentVisible = true;
     this.isEditing = true;
-    console.log(invoice);
+
+    const dateString = invoice.expectdate; // Oct 23
+    const dateParts = dateString.split("/");
+    // month is 0-based, that's why we need dataParts[1] - 1
+    const dateObject = new Date(+dateParts[2], +dateParts[1] - 1, +dateParts[0]); 
+    this.expectdateString = dateString
+
+    const dateString2 = invoice.expectdate; // Oct 23
+    const dateParts2 = dateString2.split("/");
+    // month is 0-based, that's why we need dataParts[1] - 1
+    const dateObject2 = new Date(+dateParts2[2], +dateParts2[1] - 1, +dateParts2[0]); 
+    this.completeddateString = dateString
+
     this.invoiceForm = this.formBuilder.group({
+      id: invoice.id,
       idacc: invoice.idacc,
       created: invoice.created,
       total: invoice.total,
       paid: invoice.paid,
       owned: invoice.owned,
-      expectdate: new Date(invoice.expectdate),
-      completeddate: new Date(invoice.completeddate),
+      expectdate: dateObject,
+      completeddate: dateObject2,
       description: invoice.description,
       status: invoice.status,
     });
@@ -128,85 +162,100 @@ export class ListInvoicesComponent implements OnInit {
 
   addInvoice() {
     var invoice: Invoices = this.invoiceForm.value as Invoices;
+    invoice.expectdate = this.datepipe.transform(
+      invoice.expectdate,
+      'dd/MM/yyyy'
+    );
+    invoice.completeddate = invoice.expectdate;
+    invoice.created = this.datepipe.transform(invoice.created, 'dd/MM/yyyy');
+    invoice.total = 0;
+    invoice.paid = 0;
+    invoice.owned = invoice.total - invoice.paid;
+    if (this.type < 4) invoice.idacc = this.id;
 
-    if (invoice.total <= invoice.paid) {
-      this.messageService.add({
-        severity: 'error',
-        summary: 'Failed',
-        detail: 'Total money must be higher or equal than paid money',
-        life: 1000
-      });
-    } else {
-      invoice.expectdate = this.datepipe.transform(
-        invoice.expectdate,
-        'dd/MM/yyyy'
-      );
-      invoice.completeddate = invoice.expectdate;
-      invoice.created = this.datepipe.transform(invoice.created, 'dd/MM/yyyy');
-      invoice.owned = invoice.total - invoice.paid;
-
-      this.invoicesService.create(invoice).then(
-        (res) => {
-          var result: any = res as any;
-          if (result.status) {
-            console.log(result);
-            this.router.navigate([
-              '/invoices/invoice-details',
-              { id: result.id },
-            ]);
-            // this.invoices.unshift(result.invoice)
-          } else {
-            this.messageService.add({
-              severity: 'error',
-              summary: 'Failed',
-              detail: 'Add invoice failed',
-              life: 1000
-            });
-          }
-        },
-        (err) => {
+    this.invoicesService.create(invoice).then(
+      (res) => {
+        var result: any = res as any;
+        if (result.status) {
+          console.log(result);
+          this.router.navigate([
+            '/invoices/invoice-details',
+            { id: result.id },
+          ]);
+          // this.invoices.unshift(result.invoice)
+        } else {
           this.messageService.add({
             severity: 'error',
             summary: 'Failed',
             detail: 'Add invoice failed',
-            life: 1000
+            life: 1000,
           });
         }
-      );
-    }
+      },
+      (err) => {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Failed',
+          detail: 'Add invoice failed',
+          life: 1000,
+        });
+      }
+    );
   }
 
   updateInvoice() {
-    // var invoice: Invoices = this.invoiceForm.value as Invoices;
+    var invoice: Invoices = this.invoiceForm.value as Invoices;
     // invoice.idacc = this.invoice.idacc;
-    // this.invoicesService.create(invoice).then(
-    //     res => {
-    //         var result: any = res as any;
-    //         if (result.status) {
-    //             // this.router.navigate(['/']);
-    //             console.log("a");
-    //         } else {
-    //             this.messageService.add({
-    //                 severity: 'error',
-    //                 summary: 'Failed',
-    //                 detail: 'Cap nhat San Pham That Bai 1',
-    //             });
-    //         }
-    //     },
-    //     err => {
-    //         this.messageService.add({
-    //             severity: 'error',
-    //             summary: 'Failed',
-    //             detail: 'Cap nhat San Pham That Bai 2'
-    //         });
-    //     }
-    // );
+    invoice.expectdate = this.expectdateString
+    invoice.completeddate = this.completeddateString
+
+    this.invoicesService.update(invoice).then(
+      (res) => {
+        var result: any = res as any;
+        if (result.status) {
+          const newInvoice = {
+            id: result.invoice.id,
+            idacc: result.invoice.idacc,
+            created: result.invoice.created,
+            total: result.invoice.total,
+            paid: result.invoice.paid,
+            owned: result.invoice.owned,
+            expectdate: result.invoice.expectdate,
+            completeddate: result.invoice.completeddate,
+            description: result.invoice.description,
+            status: result.invoice.status,
+          };
+          let index = this.invoices.findIndex(el => el.id == result.invoice.id)
+          this.invoices.splice(index, 1, newInvoice)
+
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Successful',
+            detail: 'Update invoice successful',
+            life: 1000
+          });
+          this.contentVisible = false
+        } else {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Failed',
+            detail: 'Update invoice failed',
+            life: 1000
+          });
+        }
+      },
+      (err) => {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Failed',
+          detail: 'Update invoice failed 2',
+          life: 1000
+        });
+      }
+    );
   }
 
   viewInvoiceDetail(invoice: any) {
-    this.router.navigate([
-      '/invoices/invoice-details',
-      { id: invoice.id },
-    ]);
+    this.router.navigate(['/invoices/invoice-details', { id: invoice.id }]);
   }
 }

@@ -235,14 +235,11 @@ export class InvoiceDetailsComponent implements OnInit {
             console.log(err);
           }
         );
-
-        
       },
       (err) => {
         console.log(err);
       }
     );
-    return
   }
 
   cancelEditing() {
