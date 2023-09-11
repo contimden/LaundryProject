@@ -16,7 +16,15 @@ export class InvoicesService {
     return await lastValueFrom(this.httpClient.get(this.baseURLService.getBaseUrl() + 'invoice/findall'));
   }
 
+  async findById(id: number) {
+    return await lastValueFrom(this.httpClient.get(this.baseURLService.getBaseUrl() + 'invoice/findbyid/' + id));
+  }
+
   async create(invoice: Invoices) {
     return await lastValueFrom(this.httpClient.post(this.baseURLService.getBaseUrl() + 'invoice/create', invoice));
+  }
+
+  async update(invoice: Invoices) {
+    return await lastValueFrom(this.httpClient.put(this.baseURLService.getBaseUrl() + 'invoice/update', invoice));
   }
 }

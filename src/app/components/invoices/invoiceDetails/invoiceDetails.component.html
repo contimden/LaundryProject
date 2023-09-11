@@ -1,0 +1,78 @@
+<div class="grid">
+  <div class="col-12">
+    <div class="card">
+      <p-messages></p-messages>
+      <h3>Invoice details of invoice {{ invoiceId }}</h3>
+      <div class="mb-2">
+        <a routerLink="/invoices/list-invoices">Return</a>
+      </div>
+      <div class="mb-2">
+        <p-button [icon]="contentVisible ? 'pi pi-times' : 'pi pi-plus'" styleClass="p-button-info p-button-rounded" (click)="addRow()" *ngIf="!isEditing"></p-button>
+      </div>
+      <div class="grid" *ngIf="contentVisible">
+        <div class="col-12">
+          <div class="card">
+            <form action="" method="post" [formGroup]="invoiceDetailForm">
+              <div class="grid">
+                <div class="col-12 md:col-6 lg:col-4">
+                  <div>ID Service</div>
+                  <input type="number" class="mt-1 w-full" pInputText formControlName="idservice" />
+                </div>
+                <div class="col-12 md:col-6 lg:col-4">
+                  <div>Quantity</div>
+                  <input type="number" class="mt-1 w-full" pInputText formControlName="quantity" />
+                </div>
+                <div class="col-12 md:col-6 lg:col-4">
+                  <div>Description</div>
+                  <input type="text" class="mt-1 w-full" pInputText formControlName="description" />
+                </div>
+                <div class="col-12 flex justify-content-end">
+                  <p-button
+                    label="Create"
+                    *ngIf="!isEditing"
+                    class="mr-2"
+                    styleClass="p-button-outlined p-button-success"
+                    (click)="addInvoiceDetail()"
+                  ></p-button>
+                  <p-button
+                    label="Update"
+                    *ngIf="isEditing"
+                    class="mr-2"
+                    styleClass="p-button-outlined p-button-success"
+                    (click)="updateInvoiceDetail()"
+                  ></p-button>
+                  <p-button
+                    label="Cancel"
+                    *ngIf="isEditing"
+                    styleClass="p-button-outlined p-button-success"
+                    (click)="cancelEditing()"
+                  ></p-button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      <p-table [value]="invoiceDetails" dataKey="id" class="mt-1">
+        <ng-template pTemplate="header">
+          <tr>
+            <th [ngStyle]="{'width':'200px'}">Action</th>
+            <th>idservice</th>
+            <th>quantity</th>
+            <th>Description</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-invoiceDetail let-expanded="expanded">
+          <tr>
+            <td [ngStyle]="{'width':'200px'}">
+              <p-button class="mr-1" icon="pi pi-pencil" styleClass="p-button-info" (click)="editRow(invoiceDetail)"></p-button>
+            </td>
+            <td>{{ invoiceDetail.idservice }}</td>
+            <td>{{ invoiceDetail.quantity }}</td>
+            <td>{{ invoiceDetail.description }}</td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+  </div>
+</div>
