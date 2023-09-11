@@ -65,11 +65,17 @@ export class LoginComponent implements OnInit {
             severity: 'error',
             summary: 'Failed',
             detail: 'Login failed',
+            life: 1000
           });
         }
       },
       (err) => {
-        console.log(err);
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Failed',
+          detail: 'Login failed',
+          life: 1000
+        });
       }
     );
   }
@@ -103,7 +109,6 @@ export class LoginComponent implements OnInit {
           account.type = 0
           account.address = ""
           
-      
           var formData = new FormData();
           formData.append('file', this.file);
           formData.append('strAccount', JSON.stringify(account));
@@ -116,8 +121,8 @@ export class LoginComponent implements OnInit {
                   this.messageService.add({
                     severity: 'success',
                     summary: 'Successful',
-                    detail: 'Account created',
-                    life: 3000
+                    detail: 'Account created succesful',
+                    life: 1000
                   });
                   this.registerVisible = false
                 }
@@ -126,7 +131,8 @@ export class LoginComponent implements OnInit {
                 this.messageService.add({
                   severity: 'error',
                   summary: 'Failed',
-                  detail: 'Tao tai khoan that bai'
+                  detail: 'Account created failed',
+                  life: 1000
                 });
               }
           );

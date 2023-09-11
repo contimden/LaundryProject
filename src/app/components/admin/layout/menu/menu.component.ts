@@ -28,19 +28,16 @@ export class MenuComponent implements OnInit {
             label: 'Account',
             icon: 'pi pi-fw pi-home',
             routerLink: ['/admin/account/account'],
-            // visible: this.type == 4
           },
         ],
       },
       {
         label: 'Services',
-        visible: this.type < 4,
         items: [
           {
             label: 'Laundry serivces',
             icon: 'pi pi-fw pi-th-large',
             routerLink: ['/admin/laundry/laundry-services'],
-            visible: this.type < 4
           },
           // { label: 'List invoices', icon: 'pi pi-fw pi-file', routerLink: ['/invoices/list-invoices'] },
         ],

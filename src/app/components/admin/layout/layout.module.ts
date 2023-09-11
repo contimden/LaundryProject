@@ -21,6 +21,10 @@ import { DialogModule } from 'primeng/dialog';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { DropdownModule } from 'primeng/dropdown';
 import { MenubarModule } from 'primeng/menubar';
+import { CalendarModule } from 'primeng/calendar';
+import { FileUploadModule } from 'primeng/fileupload';
+import { MessagesModule } from 'primeng/messages';
+import { MessageService } from 'primeng/api';
 
 @NgModule({
     declarations: [
@@ -48,7 +52,13 @@ import { MenubarModule } from 'primeng/menubar';
         ReactiveFormsModule,
         InputTextareaModule,
         DropdownModule,
-        MenubarModule
+        MenubarModule,
+        CalendarModule,
+        FileUploadModule,
+        MessagesModule
+    ],
+    providers: [
+        MessageService
     ],
     exports: [LayoutComponent]
 })

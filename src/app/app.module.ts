@@ -11,6 +11,8 @@ import { BaseURLService } from './services/base_URL.service';
 import { LayoutModule } from './components/admin/layout/layout.module';
 import {StyleClassModule} from 'primeng/styleclass';
 import { LaundryServicesService } from './services/laundryService.service';
+import { HttpClientModule } from '@angular/common/http';
+import { InvoiceDetailService } from './services/invoiceDetail.service';
 
 
 @NgModule({
@@ -23,7 +25,7 @@ import { LaundryServicesService } from './services/laundryService.service';
     ConfirmDialogModule,
     ToastModule,
     LayoutModule,
-    
+    HttpClientModule
   ],
   providers: [
     InvoicesService,
@@ -31,7 +33,8 @@ import { LaundryServicesService } from './services/laundryService.service';
     BaseURLService,
     MessageService,
     ConfirmationService,
-    LaundryServicesService
+    LaundryServicesService,
+    InvoiceDetailService
   ],
   bootstrap: [AppComponent]
 })
