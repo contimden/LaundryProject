@@ -38,7 +38,7 @@
       <i class="pi pi-user"></i>
       <span>Profile</span>
     </button>
-    <p-dialog header="Profile" [(visible)]="visibleProfile" [modal]="true" [style]="{ width: '50vw' }" [draggable]="false" [resizable]="false">
+    <p-dialog header="Profile" [(visible)]="contentVisible" [modal]="true" [style]="{ width: '50vw' }" [draggable]="false" [resizable]="false">
       <form action="" method="post" [formGroup]="updateAccountForm" (ngSubmit)="save()" *ngIf="account != null">
           <div class="grid">
             <div class="col-8">
@@ -96,7 +96,7 @@
   </div> -->
   <div>
     <p-menubar [model]="items" class="px-8" [style]="{ background: 'white', border: 0 }"></p-menubar>
-    <p-dialog header="Profile" class="mx-1 px-6" [(visible)]="visibleProfile" [modal]="true" [style]="{ width: '50vw', display: visibleProfile }" [draggable]="false" [resizable]="false">
+    <p-dialog header="Profile" class="mx-1 px-6" [(visible)]="contentVisible" [modal]="true" [style]="{ width: '50vw', display: contentVisible }" [draggable]="false" [resizable]="false">
       <form action="" method="post" [formGroup]="updateAccountForm" (ngSubmit)="save()" *ngIf="account != null">
           <div class="grid">
             <div class="col-8">
@@ -115,15 +115,15 @@
                 </div>
                 <div class="col-6">
                   <div>DOB</div>
-                  <input class="mt-1 w-full" type="text" pInputText formControlName="dob" />
-                </div>
-                <div class="col-6">
-                  <div>Type</div>
-                  <input class="mt-1 w-full" type="text" pInputText formControlName="type" />
+                  <p-calendar [style]="{'width':'100%'}" dateFormat="dd-mm-yy" formControlName="dob"></p-calendar>
                 </div>
                 <div class="col-12">
                   <div>Address</div>
-                  <textarea rows="3" class="w-full" pInputTextarea formControlName="address"></textarea>
+                  <textarea rows="1" class="w-full" pInputTextarea formControlName="address"></textarea>
+                </div>
+                <div class="col-12">
+                  <div>Photo</div>
+                  <p-fileUpload [customUpload]="true" [showUploadButton]="false" [showCancelButton]="false" [multiple]="false" (onSelect)="selectFile($event)"></p-fileUpload>
                 </div>
               </div>
             </div>
@@ -143,5 +143,6 @@
         </div>
       </div>
     </p-dialog>
+    <p-messages></p-messages>
   </div>
 </div>
