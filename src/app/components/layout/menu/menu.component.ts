@@ -1,6 +1,6 @@
 import { OnInit } from '@angular/core';
 import { Component } from '@angular/core';
-import { LayoutService } from '../../../../services/layout.service';
+import { LayoutService } from 'src/app/services/layout.service';
 
 @Component({
   selector: 'app-menu',
@@ -8,13 +8,13 @@ import { LayoutService } from '../../../../services/layout.service';
 })
 export class MenuComponent implements OnInit {
   model: any[] = [];
-  type: number
-  id: number
+  type: number;
+  id: number;
   constructor(public layoutService: LayoutService) {}
 
   ngOnInit() {
-    const type = localStorage.getItem('type')
-    this.type = parseInt(type)
+    const type = localStorage.getItem('type');
+    this.type = parseInt(type);
     this.model = [
       {
         label: 'Home',
@@ -22,12 +22,12 @@ export class MenuComponent implements OnInit {
           {
             label: 'Dashboard',
             icon: 'pi pi-fw pi-home',
-            routerLink: ['/admin/'],
+            routerLink: ['/'],
           },
           {
             label: 'Account',
             icon: 'pi pi-fw pi-home',
-            routerLink: ['/admin/account/account'],
+            routerLink: ['/account/account'],
           },
         ],
       },
@@ -37,7 +37,7 @@ export class MenuComponent implements OnInit {
           {
             label: 'Laundry serivces',
             icon: 'pi pi-fw pi-th-large',
-            routerLink: ['/admin/laundry/laundry-services'],
+            routerLink: ['/services/list-services'],
           },
           // { label: 'List invoices', icon: 'pi pi-fw pi-file', routerLink: ['/invoices/list-invoices'] },
         ],
@@ -48,30 +48,27 @@ export class MenuComponent implements OnInit {
           {
             label: 'List invoices',
             icon: 'pi pi-fw pi-file',
-            routerLink: ['/admin/invoices/list-invoices'],
+            routerLink: ['/invoices/list-invoices'],
           },
-         
         ],
       },
       {
         label: 'Item',
         items: [
-          
           {
             label: 'List items',
             icon: 'pi pi-fw pi-file',
-            routerLink: ['/admin/invoices/list-items'],
+            routerLink: ['/invoices/list-items'],
           },
         ],
       },
       {
         label: 'Laundry Service',
         items: [
-          
           {
             label: 'List Service',
             icon: 'pi pi-fw pi-file',
-            routerLink: ['/admin/laundry/laundry-services'],
+            routerLink: ['/laundry/laundry-services'],
           },
         ],
       },

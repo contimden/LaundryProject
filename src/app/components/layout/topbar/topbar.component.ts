@@ -1,10 +1,10 @@
 import { Component, ElementRef, ViewChild, OnInit } from '@angular/core';
 import { MenuItem, MessageService } from 'primeng/api';
-import { LayoutService } from '../../../../services/layout.service';
 import { Account } from 'src/app/models/account.model';
 import { AccountService } from 'src/app/services/account.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
+import { LayoutService } from 'src/app/services/layout.service';
 
 @Component({
   selector: 'app-topbar',

@@ -3,7 +3,11 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { InvoiceDetail } from 'src/app/models/invoiceDetail.model';
+import { Invoices } from 'src/app/models/invoices.model';
+import { LaundryServices } from 'src/app/models/laundryServices.model';
 import { InvoiceDetailService } from 'src/app/services/invoiceDetail.service';
+import { InvoicesService } from 'src/app/services/invoices.service';
+import { LaundryServicesService } from 'src/app/services/laundryService.service';
 
 @Component({
   templateUrl: './invoiceDetails.component.html',
@@ -16,18 +20,25 @@ import { InvoiceDetailService } from 'src/app/services/invoiceDetail.service';
   ],
 })
 export class InvoiceDetailsComponent implements OnInit {
-  invoiceDetail: InvoiceDetail;
-  invoiceDetails: InvoiceDetail[];
-  invoiceDetailForm: FormGroup;
-  isEditing: boolean;
-  contentVisible: boolean;
+  invoiceDetail: InvoiceDetail
+  invoiceDetails: InvoiceDetail[]
+  invoiceDetailForm: FormGroup
+  isEditing: boolean
+  contentVisible: boolean
   invoiceId: number
+  invoice: Invoices
+  invoiceForm: FormGroup
+  service: LaundryServices
+  oldQuantity: number
+  oldPrice: number
 
   constructor(
     private activateRoute: ActivatedRoute,
     private formBuilder: FormBuilder,
     private invoiceDetailService: InvoiceDetailService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private invoicesService: InvoicesService,
+    private laundryService: LaundryServicesService,
   ) {}
 
   ngOnInit() {
@@ -54,18 +65,12 @@ export class InvoiceDetailsComponent implements OnInit {
 
   addRow() {
     this.contentVisible = !this.contentVisible
-    this.invoiceDetailForm = this.formBuilder.group({
-      id: null,
-      idinvoice: null,
-      idservice: null,
-      quantity: null,
-      description: ""
-    });
   }
 
   addInvoiceDetail() {
     var invoiceDetail: InvoiceDetail = this.invoiceDetailForm
       .value as InvoiceDetail;
+    
     this.invoiceDetailService.create(invoiceDetail).then(
       (res) => {
         var result: any = res as any;
@@ -87,6 +92,7 @@ export class InvoiceDetailsComponent implements OnInit {
           });
           this.contentVisible = false;
           this.isEditing = false;
+          this.updateInvoice(result.invoicedetail.idinvoice, result.invoicedetail.idservice, result.invoicedetail.quantity, false)
         } else {
           this.messageService.add({
             severity: 'error',
@@ -117,6 +123,16 @@ export class InvoiceDetailsComponent implements OnInit {
       quantity: invoiceDetail.quantity,
       description: invoiceDetail.description,
     });
+    this.oldQuantity = invoiceDetail.quantity
+    this.laundryService.findbyid(invoiceDetail.idservice).then(
+      (res) => {
+        this.service = res as LaundryServices;
+        this.oldPrice = this.service.price
+      },
+      (err) => {
+        console.log(err);
+      }
+    );
   }
 
   updateInvoiceDetail() {
@@ -145,6 +161,7 @@ export class InvoiceDetailsComponent implements OnInit {
           });
           this.contentVisible = false;
           this.isEditing = false;
+          this.updateInvoice(result.invoicedetail.idinvoice, result.invoicedetail.idservice, result.invoicedetail.quantity, true)
         } else {
           this.messageService.add({
             severity: 'error',
@@ -163,6 +180,69 @@ export class InvoiceDetailsComponent implements OnInit {
         });
       }
     );
+  }
+
+  updateInvoice(idInvoice: any, idService: any, quantity: any, isUpdate: boolean) {
+    this.invoicesService.findById(idInvoice).then(
+      (res) => {
+        this.invoice = res as Invoices;
+        
+        this.laundryService.findbyid(idService).then(
+          (res) => {
+            this.service = res as LaundryServices;
+            
+            let newTotal = this.invoice.total + this.service.price * quantity
+            if(isUpdate) newTotal -= this.oldPrice * this.oldQuantity
+            this.invoiceForm = this.formBuilder.group({
+              id: this.invoiceId,
+              idacc: this.invoice.idacc,
+              created: this.invoice.created,
+              total: newTotal,
+              paid: this.invoice.paid,
+              owned: this.invoice.owned,
+              expectdate: this.invoice.expectdate,
+              completeddate: this.invoice.completeddate,
+              description: this.invoice.description,
+              status: this.invoice.status,
+            });
+            var invoice: Invoices = this.invoiceForm.value as Invoices;
+            this.invoicesService.update(invoice).then(
+              (res) => {
+                var result: any = res as any;
+                if (result.status) {
+                  console.log(result);
+                  // this.invoices.unshift(result.invoice)
+                } else {
+                  this.messageService.add({
+                    severity: 'error',
+                    summary: 'Failed',
+                    detail: 'Add invoice failed',
+                    life: 1000
+                  });
+                }
+              },
+              (err) => {
+                this.messageService.add({
+                  severity: 'error',
+                  summary: 'Failed',
+                  detail: 'Add invoice failed',
+                  life: 1000
+                });
+              }
+            );
+          },
+          (err) => {
+            console.log(err);
+          }
+        );
+
+        
+      },
+      (err) => {
+        console.log(err);
+      }
+    );
+    return
   }
 
   cancelEditing() {

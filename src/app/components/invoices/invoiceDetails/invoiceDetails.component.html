@@ -4,7 +4,7 @@
       <p-messages></p-messages>
       <h3>Invoice details of invoice {{ invoiceId }}</h3>
       <div class="mb-2">
-        <a routerLink="/admin/invoices/list-invoices">Return</a>
+        <a routerLink="/invoices/list-invoices">Return</a>
       </div>
       <div class="mb-2">
         <p-button [icon]="contentVisible ? 'pi pi-times' : 'pi pi-plus'" styleClass="p-button-info p-button-rounded" (click)="addRow()" *ngIf="!isEditing"></p-button>

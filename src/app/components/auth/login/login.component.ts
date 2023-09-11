@@ -42,7 +42,7 @@ export class LoginComponent implements OnInit {
     const username = this.loginForm.value.username;
     const password = this.loginForm.value.password;
     const type = this.loginForm.value.type;
-    this.accountService.loginadmin(username, password).then(
+    this.accountService.login(username, password).then(
       (res) => {
         var result: any = res as any;
         if (result.status) {
@@ -54,7 +54,7 @@ export class LoginComponent implements OnInit {
               localStorage.setItem('username', account.username);
               localStorage.setItem('type', account.type.toString());
               localStorage.setItem('id', account.id.toString());
-              this.router.navigate(['/admin']);
+              this.router.navigate(['/']);
             },
             (err) => {
               console.log(err);

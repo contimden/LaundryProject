@@ -4,7 +4,7 @@ import { LaundryServicesComponent } from './laundryServices.component';
 
 @NgModule({
     imports: [RouterModule.forChild([
-        { path: 'laundry-services', component: LaundryServicesComponent }
+        { path: '', component: LaundryServicesComponent }
     ])],
     exports: [RouterModule]
 })

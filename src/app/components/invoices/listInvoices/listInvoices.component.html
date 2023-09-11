@@ -12,21 +12,21 @@
             <!-- form -->
             <form action="" method="post" [formGroup]="invoiceForm">
               <div class="grid">
-                <div class="col-12" *ngIf="isEditing">
+                <!-- <div class="col-12" *ngIf="isEditing">
                   <b>ID: </b>{{ invoiceId }} - <b>AccID: </b>{{ idAcc }}
-                </div>
-                <div class="col-12" *ngIf="isEditing">
+                </div> -->
+                <!-- <div class="col-12" *ngIf="isEditing">
                   Remain money: {{ owned }}
-                </div>
+                </div> -->
                 <div class="col-12 md:col-6 lg:col-4">
                   <div>Account id</div>
                   <input type="text" class="mt-1 w-full" pInputText formControlName="idacc" />
                 </div>
-                <div class="col-12 md:col-6 lg:col-4">
+                <div class="col-12 md:col-6 lg:col-4" *ngIf="isEditing">
                   <div>Total</div>
                   <input type="number" class="mt-1 w-full" pInputText formControlName="total" />
                 </div>
-                <div class="col-12 md:col-6 lg:col-4">
+                <div class="col-12 md:col-6 lg:col-4" *ngIf="isEditing">
                   <div>Paid</div>
                   <input type="number" class="mt-1 w-full" pInputText formControlName="paid" />
                 </div>
@@ -121,20 +121,6 @@
                   </div>
                   <div class="p-3 pt-0 pb-0">
                     <b>Completed Date: </b>{{ invoice.completeddate | date:'mediumDate' }}
-                  </div>
-                </div>
-                <div class="col-6">
-                  <div class="p-3 pt-0">
-                    <b>Services: </b>
-                    <!-- {{ getServiceName(invoice.serviceId) }} -->
-                  </div>
-                  <div class="p-3 pt-0">
-                    <b>Color: </b>
-                    <!-- {{ invoice.color }} -->
-                  </div>
-                  <div class="p-3 pt-0">
-                    <b>Quantity: </b>
-                    <!-- {{ invoice.quantity }} -->
                   </div>
                 </div>
               </div>

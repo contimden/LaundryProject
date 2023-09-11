@@ -13,29 +13,27 @@ import { InputTextareaModule } from 'primeng/inputtextarea';
 import { FileUploadModule } from 'primeng/fileupload';
 import { ToastModule } from 'primeng/toast';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
-
-
+import { InputTextModule } from 'primeng/inputtext';
 
 @NgModule({
-    imports: [
-        LaundryServicesRoutingModule,
-        CommonModule,
-        ButtonModule,
-        CalendarModule,
-        DropdownModule,
-        TableModule,
-        TagModule,
-        FormsModule,
-        ReactiveFormsModule,
-        InputTextareaModule,
-        FileUploadModule,
-        ToastModule,
-        ConfirmDialogModule
-    ],
-    declarations: [LaundryServicesComponent],
-    providers: [
-        MessageService,
-        DatePipe
-      ],
+  imports: [
+    LaundryServicesRoutingModule,
+    CommonModule,
+    ButtonModule,
+    CalendarModule,
+    DropdownModule,
+    TableModule,
+    TagModule,
+    FormsModule,
+    ReactiveFormsModule,
+    InputTextareaModule,
+    FileUploadModule,
+    ToastModule,
+    ConfirmDialogModule,
+    InputTextModule,
+    FileUploadModule
+  ],
+  declarations: [LaundryServicesComponent],
+  providers: [MessageService, DatePipe],
 })
-export class LaundryServicesModule { }
+export class LaundryServicesModule {}

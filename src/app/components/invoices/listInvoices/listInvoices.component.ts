@@ -17,15 +17,15 @@ import { InvoicesService } from 'src/app/services/invoices.service';
   ],
 })
 export class ListInvoicesComponent implements OnInit {
-  invoiceForm: FormGroup;
-  invoices: Invoices[];
-  invoice: Invoices;
-  contentVisible: boolean;
-  isEditing: boolean;
-  invoiceId: number;
-  idAcc: number;
-  owned: number;
-  paidMoney: number;
+  invoiceForm: FormGroup
+  invoices: Invoices[]
+  invoice: Invoices
+  contentVisible: boolean
+  isEditing: boolean
+  invoiceId: number
+  idAcc: number
+  owned: number
+  paidMoney: number
   deliveryOptions: any[] = [
     { label: 'New', value: 1 },
     { label: 'Picked up', value: 2 },
@@ -151,7 +151,7 @@ export class ListInvoicesComponent implements OnInit {
           if (result.status) {
             console.log(result);
             this.router.navigate([
-              '/admin/invoices/invoice-details',
+              '/invoices/invoice-details',
               { id: result.id },
             ]);
             // this.invoices.unshift(result.invoice)
@@ -205,7 +205,7 @@ export class ListInvoicesComponent implements OnInit {
 
   viewInvoiceDetail(invoice: any) {
     this.router.navigate([
-      '/admin/invoices/invoice-details',
+      '/invoices/invoice-details',
       { id: invoice.id },
     ]);
   }

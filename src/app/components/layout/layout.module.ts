@@ -10,7 +10,6 @@ import { RadioButtonModule } from 'primeng/radiobutton';
 import { InputSwitchModule } from 'primeng/inputswitch';
 import { RippleModule } from 'primeng/ripple';
 import { MenuComponent } from './menu/menu.component';
-import { AppMenuitemComponent } from './app.menuitem.component';
 import { RouterModule } from '@angular/router';
 import { TopBarComponent } from './topbar/topbar.component';
 import { FooterComponent } from './footer/footer.component';
@@ -25,6 +24,7 @@ import { CalendarModule } from 'primeng/calendar';
 import { FileUploadModule } from 'primeng/fileupload';
 import { MessagesModule } from 'primeng/messages';
 import { MessageService } from 'primeng/api';
+import { AppMenuitemComponent } from './app.menuitem.component';
 
 @NgModule({
     declarations: [
