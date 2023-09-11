@@ -1,59 +1,37 @@
 import { Injectable } from "@angular/core";
 import { LaundryServices } from "../models/laundryServices.model";
+import { BaseURLService } from "./base_URL.service";
+import { HttpClient } from "@angular/common/http";
+import { lastValueFrom } from "rxjs";
 
 @Injectable()
 
 export class LaundryServicesService {
-//   find(id: number): Product{
-//     var products: Product[] = this.findAll()
-//     for(let i = 0; i < products.length; i++) {
-//       if(products[i].id == id) return products[i]
-//     }
-//     return null
-//   }
+  constructor(
+    private baseURLService: BaseURLService,
+    private httpClient: HttpClient
+  ) { }
 
-  findAll(): LaundryServices[] {
-    return [
-      {
-        serviceId: 1,
-        serviceName: "By weight",
-        unit: "kg",
-        price: 6,
-        description: "$6/kg",
-        color: "light"
-      },
-      {
-        serviceId: 2,
-        serviceName: "By weight",
-        unit: "kg",
-        price: 5,
-        description: "$5/kg",
-        color: "dark"
-      },
-      {
-        serviceId: 3,
-        serviceName: "By pieces",
-        unit: "pieces",
-        price: 2.5,
-        description: "$2.5/pieces",
-        color: "light"
-      },
-      {
-        serviceId: 4,
-        serviceName: "By pieces",
-        unit: "pieces",
-        price: 2,
-        description: "$2/pieces",
-        color: "light"
-      },
-      {
-        serviceId: 5,
-        serviceName: "By month",
-        unit: "kg",
-        price: 0,
-        description: "Free for 1 month",
-        color: "all"
-      },
-    ];
+  async findAll() {
+    return await lastValueFrom(this.httpClient.get(this.baseURLService.getBaseUrl() + 'laundryservice/findall'));
   }
+  async findbyid(id: number) {
+    return await lastValueFrom(this.httpClient.get(this.baseURLService.getBaseUrl() + 'laundryservice/findbyid/'+ id));
+  }
+  async findbyname(name: string) {
+    return await lastValueFrom(this.httpClient.get(this.baseURLService.getBaseUrl() + 'laundryservice/findbyname/'+ name));
+  }
+  async findbyprice(min: number, max: number) {
+    return await lastValueFrom(this.httpClient.get(this.baseURLService.getBaseUrl() + 'laundryservice/findbyprice/'+ min + '/'+ max));
+  }
+  async create(formData: FormData){
+    return await lastValueFrom(this.httpClient.post(this.baseURLService.getBaseUrl() + 'laundryservice/create', formData));
+  }
+  async delete(id: number){
+    return await lastValueFrom(this.httpClient.delete(this.baseURLService.getBaseUrl() + 'laundryservice/delete/' + id));
+  }
+  async update(formData: FormData) {
+    return await lastValueFrom(this.httpClient.put(this.baseURLService.getBaseUrl() + 'laundryservice/update', formData));
+  }
+
 }

@@ -96,7 +96,7 @@ export class ListAccountComponent implements OnInit {
           this.messageService.add({
             severity: 'error',
             summary: 'Failed',
-            detail: 'Cap nhat San Pham That Bai 1',
+            detail: 'Cap nhat Account That Bai 1',
           });
         }
       },
@@ -104,7 +104,7 @@ export class ListAccountComponent implements OnInit {
         this.messageService.add({
           severity: 'error',
           summary: 'Failed',
-          detail: 'Cap nhat San Pham That Bai 2',
+          detail: 'Cap nhat Account That Bai 2',
         });
       }
     );

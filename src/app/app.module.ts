@@ -10,6 +10,7 @@ import { AccountService } from './services/account.service';
 import { BaseURLService } from './services/base_URL.service';
 import { LayoutModule } from './components/admin/layout/layout.module';
 import {StyleClassModule} from 'primeng/styleclass';
+import { LaundryServicesService } from './services/laundryService.service';
 
 
 @NgModule({
@@ -29,7 +30,8 @@ import {StyleClassModule} from 'primeng/styleclass';
     AccountService,
     BaseURLService,
     MessageService,
-    ConfirmationService
+    ConfirmationService,
+    LaundryServicesService
   ],
   bootstrap: [AppComponent]
 })
