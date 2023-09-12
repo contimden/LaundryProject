@@ -21,7 +21,7 @@ export class LaundryServicesComponent implements OnInit {
   serviceId: number;
   file: File;
   editPhoto: string
-
+  type: number
   constructor(
     private laundryService: LaundryServicesService,
     private formBuilder: FormBuilder,
@@ -32,6 +32,8 @@ export class LaundryServicesComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    const type = localStorage.getItem('type');
+    this.type = parseInt(type)
     this.laundryService.findAll().then(
       (res) => {
         this.services = res as LaundryServices[];

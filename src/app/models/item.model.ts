@@ -1,11 +1,9 @@
 export class Item {
-  itemID: number
-  serviceID: number
-  quantity: number
-  description: string
-  itemName: string
-  quantityOnHand: number
-  purchasePrice: number
-  unit: string
-  entryDate: Date
+  id : number
+  name : string
+  quantity : number
+  price : number
+  unit : string
+  description : string
+  photo : string
 }

@@ -22,7 +22,7 @@ export class MenuComponent implements OnInit {
           {
             label: 'Dashboard',
             icon: 'pi pi-fw pi-home',
-            routerLink: ['/'],
+            routerLink: ['/dashboard'],
           },
           {
             label: 'Account',
@@ -60,16 +60,6 @@ export class MenuComponent implements OnInit {
             label: 'List items',
             icon: 'pi pi-fw pi-file',
             routerLink: ['/invoices/list-items'],
-          },
-        ],
-      },
-      {
-        label: 'Laundry Service',
-        items: [
-          {
-            label: 'List Service',
-            icon: 'pi pi-fw pi-file',
-            routerLink: ['/laundry/laundry-services'],
           },
         ],
       },

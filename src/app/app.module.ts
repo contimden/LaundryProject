@@ -13,6 +13,7 @@ import { LaundryServicesService } from './services/laundryService.service';
 import { HttpClientModule } from '@angular/common/http';
 import { InvoiceDetailService } from './services/invoiceDetail.service';
 import { LayoutModule } from './components/layout/layout.module';
+import { ItemService } from './services/item.service';
 
 
 @NgModule({
@@ -34,7 +35,8 @@ import { LayoutModule } from './components/layout/layout.module';
     MessageService,
     ConfirmationService,
     LaundryServicesService,
-    InvoiceDetailService
+    InvoiceDetailService,
+    ItemService
   ],
   bootstrap: [AppComponent]
 })

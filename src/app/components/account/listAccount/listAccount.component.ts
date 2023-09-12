@@ -103,7 +103,7 @@ export class ListAccountComponent implements OnInit {
             fullname: result.account.fullname,
             phone: result.account.phone,
             email: result.account.email,
-            photo: result.account.photo,
+            photo: "http://localhost:5231//images/account/" + result.account.photo,
             dob: result.account.dob,
             address: result.account.address,
             username: result.account.username,

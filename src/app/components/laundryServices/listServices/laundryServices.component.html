@@ -1,4 +1,4 @@
-<div class="grid">
+<div class="grid" *ngIf="type < 4">
   <div class="col-12 xl:col-4">
     <div class="card">
       <div class="flex align-items-center justify-content-center mb-4">
@@ -47,7 +47,7 @@
     </div>
   </div>
 </div>
-<div class="grid">
+<div class="grid" *ngIf="type == 4">
   <div class="col-12">
     <div class="card">
       <h3>Laundry Service List</h3>

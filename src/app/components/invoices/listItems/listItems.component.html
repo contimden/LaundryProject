@@ -1,7 +1,147 @@
 <div class="grid">
   <div class="col-12">
     <div class="card">
+      <p-messages></p-messages>
       <h3>List item</h3>
+      <div class="mb-2">
+        <p-button
+          [icon]="contentVisible ? 'pi pi-times' : 'pi pi-plus'"
+          styleClass="p-button-info p-button-rounded"
+          (click)="addRow()"
+          *ngIf="!isEditing"
+        ></p-button>
+      </div>
+      <div class="grid" *ngIf="contentVisible">
+        <div class="col-12">
+          <div class="card">
+            <!-- form -->
+            <form action="" method="post" [formGroup]="itemForm">
+              <div class="grid">
+                <div class="col-12 md:col-6 lg:col-4">
+                  <div>Name</div>
+                  <input
+                    type="text"
+                    class="mt-1 w-full"
+                    pInputText
+                    formControlName="name"
+                  />
+                </div>
+                <div class="col-12 md:col-6 lg:col-4">
+                  <div>Quantity</div>
+                  <input
+                    type="text"
+                    class="mt-1 w-full"
+                    pInputText
+                    formControlName="quantity"
+                  />
+                </div>
+                <div class="col-12 md:col-6 lg:col-4">
+                  <div>Price</div>
+                  <input
+                    type="text"
+                    class="mt-1 w-full"
+                    pInputText
+                    formControlName="price"
+                  />
+                </div>
+                <div class="col-12 md:col-6 lg:col-4">
+                  <div>Unit</div>
+                  <input
+                    type="text"
+                    class="mt-1 w-full"
+                    pInputText
+                    formControlName="unit"
+                  />
+                </div>
+                <div class="col-12 md:col-6 lg:col-4">
+                  <div>Description</div>
+                  <input
+                    type="text"
+                    class="mt-1 w-full"
+                    pInputText
+                    formControlName="description"
+                  />
+                </div>
+
+                <div class="col-12 md:col-6 lg:col-4">
+                  <div>Photo</div>
+                  <p-fileUpload
+                    name="photo"
+                    [customUpload]="true"
+                    (onSelect)="selectFile($event)"
+                  >
+                  </p-fileUpload>
+                </div>
+
+                <div class="col-12 flex justify-content-end">
+                  <p-button
+                    [label]="isEditing ? 'Update' : 'Create'"
+                    class="mr-2"
+                    styleClass="p-button-outlined p-button-success"
+                    (click)="isEditing ? editItem() : addItem()"
+                  ></p-button>
+                  <p-button
+                    label="Cancel"
+                    styleClass="p-button-outlined p-button-success"
+                    (click)="cancelEditing()"
+                  ></p-button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <p-table [value]="items" dataKey="id" class="mt-1">
+        <!-- <ng-template pTemplate="caption">
+            <div class="flex">
+                
+                <span class="p-input-icon-left ml-auto">
+                    <i class="pi pi-search"></i>
+                    <input pInputText type="text" [(ngModel)]="keyword" (keyup)="findByKeyword()" placeholder="Search keyword" />
+                </span>
+            </div>
+        </ng-template> -->
+
+        <ng-template pTemplate="header">
+          <tr>
+            <th [ngStyle]="{ width: '200px' }">Action</th>
+            <th>No.</th>
+            <th>Name</th>
+            <th>quantity</th>
+            <th>price</th>
+            <th>unit</th>
+            <th>Description</th>
+            <th>Photo</th>
+          </tr>
+        </ng-template>
+
+        <ng-template pTemplate="body" let-item let-expanded="expanded">
+          <tr>
+            <td [ngStyle]="{ width: '200px' }">
+              <p-button
+                class="mr-1"
+                icon="pi pi-pencil"
+                styleClass="p-button-info"
+                (click)="editRow(item)"
+              ></p-button>
+              <p-button
+                class="mr-1"
+                icon="pi pi-trash"
+                styleClass="p-button-danger"
+                (click)="deleteItem(item.id)"
+              ></p-button>
+            </td>
+            <td>{{ item.id }}</td>
+            <td>{{ item.name }}</td>
+            <td>{{ item.quantity }}</td>
+            <td>{{ item.price }}</td>
+            <td>{{ item.unit }}</td>
+            <td>{{ item.description }}</td>
+            <td><img src="{{ item.photo }}" width="70" height="70" /></td>
+          </tr>
+        </ng-template>
+      </p-table>
     </div>
   </div>
 </div>
