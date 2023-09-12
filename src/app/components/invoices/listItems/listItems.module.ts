@@ -16,6 +16,8 @@ import { CalendarModule } from 'primeng/calendar';
 import { DatePipe } from '@angular/common';
 import { FileUploadModule } from 'primeng/fileupload';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { DialogModule } from 'primeng/dialog';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
 
 @NgModule({
     imports: [
@@ -33,7 +35,11 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
         MessagesModule,
         CalendarModule,
         FileUploadModule,
-        MessagesModule
+        MessagesModule,
+        DialogModule,
+        ConfirmDialogModule,
+        
+        
     ],
     declarations: [ListItemsComponent],
     providers: [

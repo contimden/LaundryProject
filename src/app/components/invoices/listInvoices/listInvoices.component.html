@@ -1,7 +1,6 @@
 <div class="grid">
   <div class="col-12">
     <div class="card">
-      <p-messages></p-messages>
       <h3>List invoices</h3>
       <div class="mb-2">
         <p-button [icon]="contentVisible ? 'pi pi-times' : 'pi pi-plus'" styleClass="p-button-info p-button-rounded" (click)="addRow()" *ngIf="!isEditing"></p-button>
@@ -12,54 +11,50 @@
             <!-- form -->
             <form action="" method="post" [formGroup]="invoiceForm">
               <div class="grid">
-                <!-- <div class="col-12" *ngIf="isEditing">
+                <div class="col-12" *ngIf="isEditing">
                   <b>ID: </b>{{ invoiceId }} - <b>AccID: </b>{{ idAcc }}
-                </div> -->
-                <!-- <div class="col-12" *ngIf="isEditing">
+                </div>
+                <div class="col-12" *ngIf="isEditing">
                   Remain money: {{ owned }}
-                </div> -->
-                <div class="col-12 md:col-6 lg:col-4" *ngIf="type == 4">
+                </div>
+                <div class="col-12 md:col-6 lg:col-4">
                   <div>Account id</div>
                   <input type="text" class="mt-1 w-full" pInputText formControlName="idacc" />
                 </div>
-                <div class="col-12 md:col-6 lg:col-4" *ngIf="isEditing">
+                <div class="col-12 md:col-6 lg:col-4">
                   <div>Total</div>
-                  <input type="number" class="mt-1 w-full" pInputText formControlName="total" />
+                  <input type="text" class="mt-1 w-full" pInputText formControlName="total" />
                 </div>
-                <div class="col-12 md:col-6 lg:col-4" *ngIf="isEditing">
+                <div class="col-12 md:col-6 lg:col-4">
                   <div>Paid</div>
-                  <input type="number" class="mt-1 w-full" pInputText formControlName="paid" />
+                  <input type="text" class="mt-1 w-full" pInputText formControlName="paid" />
+                </div>
+                <div class="col-12 md:col-6 lg:col-4">
+                  <div>Owned</div>
+                  <input type="text" class="mt-1 w-full" pInputText formControlName="owned" />
                 </div>
                 <div class="col-12 md:col-6 lg:col-4">
                   <div>Expect date</div>
-                  <p-calendar [style]="{'width':'100%', 'margin-top': '0.25rem'}" dateFormat="dd-mm-yy" formControlName="expectdate"></p-calendar>
+                  <p-calendar [style]="{'width':'100%'}" dateFormat="dd-mm-yy" formControlName="expectdate"></p-calendar>
                 </div>
-                <!-- <div class="col-12 md:col-6 lg:col-4">
+                <div class="col-12 md:col-6 lg:col-4">
                   <div>Completed date</div>
                   <p-calendar [style]="{'width':'100%'}" dateFormat="dd-mm-yy" formControlName="completeddate"></p-calendar>
-                </div> -->
+                </div>
                 <div class="col-12 md:col-6 lg:col-4">
                   <div>Description</div>
                   <input type="text" class="mt-1 w-full" pInputText formControlName="description" />
                 </div>
-                <!-- <div class="col-12 md:col-6 lg:col-4">
+                <div class="col-12 md:col-6 lg:col-4">
                   <div>Status</div>
                   <p-dropdown [options]="deliveryOptions" autoWidth="false" [style]="{'width':'100%'}" formControlName="status" optionLabel="label" optionValue="value"></p-dropdown>
-                </div> -->
+                </div>
                 <div class="col-12 flex justify-content-end">
                   <p-button
-                    label="Create"
-                    *ngIf="!isEditing"
+                    [label]="isEditing ? 'Update' : 'Create'"
                     class="mr-2"
                     styleClass="p-button-outlined p-button-success"
                     (click)="addInvoice()"
-                  ></p-button>
-                  <p-button
-                    label="Update"
-                    *ngIf="isEditing"
-                    class="mr-2"
-                    styleClass="p-button-outlined p-button-success"
-                    (click)="updateInvoice()"
                   ></p-button>
                   <p-button
                     label="Cancel"
@@ -90,8 +85,7 @@
           <tr>
             <td [ngStyle]="{'width':'200px'}">
               <p-button class="mr-1" icon="pi pi-pencil" styleClass="p-button-info" (click)="editRow(invoice)"></p-button>
-              <p-button class="mr-1" [icon]="expanded ? 'pi pi-eye-slash' : 'pi pi-eye'" styleClass="p-button-success" [pRowToggler]="invoice"></p-button>
-              <p-button icon="pi pi-list" styleClass="p-button-info" (click)="viewInvoiceDetail(invoice)"></p-button>
+              <p-button [icon]="expanded ? 'pi pi-eye-slash' : 'pi pi-eye'" styleClass="p-button-success" [pRowToggler]="invoice"></p-button>
             </td>
             <td>{{ invoice.id }}</td>
             <td>{{ invoice.idacc }}</td>
@@ -121,6 +115,20 @@
                   </div>
                   <div class="p-3 pt-0 pb-0">
                     <b>Completed Date: </b>{{ invoice.completeddate | date:'mediumDate' }}
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="p-3 pt-0">
+                    <b>Services: </b>
+                    <!-- {{ getServiceName(invoice.serviceId) }} -->
+                  </div>
+                  <div class="p-3 pt-0">
+                    <b>Color: </b>
+                    <!-- {{ invoice.color }} -->
+                  </div>
+                  <div class="p-3 pt-0">
+                    <b>Quantity: </b>
+                    <!-- {{ invoice.quantity }} -->
                   </div>
                 </div>
               </div>

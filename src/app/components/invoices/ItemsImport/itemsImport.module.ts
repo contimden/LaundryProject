@@ -8,17 +8,17 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { InputTextModule } from 'primeng/inputtext';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { DropdownModule } from 'primeng/dropdown';
-import { FileUploadModule } from 'primeng/fileupload';
-import { HttpClientModule } from '@angular/common/http';
 import { MessagesModule } from 'primeng/messages';
 import { MessageService } from 'primeng/api';
 import { CalendarModule } from 'primeng/calendar';
-import { InvoiceDetailsComponent } from './invoiceDetails.component';
-import { InvoiceDetailsRoutingModule } from './invoiceDetails-routing.module';
+import { DatePipe } from '@angular/common';
+import { FileUploadModule } from 'primeng/fileupload';
+import { ItemImportComponent } from './itemsImport.component';
+import { ImportRoutingModule } from './itemsImport-routing.module';
 
 @NgModule({
     imports: [
-      InvoiceDetailsRoutingModule,
+        ImportRoutingModule,
         CommonModule,
         TableModule,
         TagModule,
@@ -29,13 +29,14 @@ import { InvoiceDetailsRoutingModule } from './invoiceDetails-routing.module';
         InputTextModule,
         InputNumberModule,
         DropdownModule,
-        FileUploadModule,
-        HttpClientModule,
         MessagesModule,
-        CalendarModule
+        CalendarModule,
+        FileUploadModule,
     ],
-    declarations: [InvoiceDetailsComponent],
-    providers: [MessageService]
+    declarations: [ItemImportComponent],
+    providers: [
+        MessageService,
+        DatePipe
+      ],
 })
-
-export class InvoiceDetailsModule {}
+export class ItemImportModule { }

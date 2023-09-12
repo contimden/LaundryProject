@@ -61,6 +61,11 @@ export class MenuComponent implements OnInit {
             icon: 'pi pi-fw pi-file',
             routerLink: ['/invoices/list-items'],
           },
+          {
+            label: 'Items Import',
+            icon: 'pi pi-fw pi-file',
+            routerLink: ['/invoices/items-import'],
+          }
         ],
       },
     ];
