@@ -8,11 +8,17 @@ import { Invoices } from 'src/app/models/invoices.model';
 import { LaundryServices } from 'src/app/models/laundryServices.model';
 import { InvoicesService } from 'src/app/services/invoices.service';
 import { LaundryServicesService } from 'src/app/services/laundryService.service';
+import { IPayPalConfig, ICreateOrderRequest } from 'ngx-paypal';
 
 @Component({
   templateUrl: './laundryServices.component.html',
 })
 export class LaundryServicesComponent implements OnInit {
+
+  amount = '20.0';
+  public showSuccess: boolean;
+  public payPalConfig?: IPayPalConfig;
+  public showPaypalButtons: boolean;
   serviceForm: FormGroup;
   services: LaundryServices[];
   service: LaundryServices;
@@ -32,6 +38,7 @@ export class LaundryServicesComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.initConfig();
     const type = localStorage.getItem('type');
     this.type = parseInt(type)
     this.laundryService.findAll().then(
@@ -195,4 +202,75 @@ export class LaundryServicesComponent implements OnInit {
   selectFile(evt: any) {
     this.file = evt.files[0];
   }
+  private initConfig(): void {
+    this.payPalConfig = {
+    currency: 'USD',
+    clientId: 'Ab5n6QXOP4Gonh7SjvjV2IaMIAfV_AqjbowtPrpJeaTLW2O1ML8n_SnL2wh8dBHf7S1sNOq6EaNK9zIV',
+    createOrderOnClient: (data) => <ICreateOrderRequest>{
+      intent: 'CAPTURE',
+      purchase_units: [
+        {
+          amount: {
+            currency_code: 'USD',
+            value: this.amount.toString(),
+            breakdown: {
+              item_total: {
+                currency_code: 'USD',
+                value: this.amount.toString()
+              }
+            }
+          },
+          items: [
+            {
+              name: '1 month',
+              quantity: '1',
+              category: 'DIGITAL_GOODS',
+              unit_amount: {
+                currency_code: 'USD',
+                value: this.amount.toString(),
+              },
+              description: 'Clean diagram for 1 month',
+            }
+          ]
+        }
+      ]
+    },
+    advanced: {
+      commit: 'true'
+    },
+    style: {
+      label: 'paypal',
+      color: 'blue',
+      shape: 'rect',
+      layout: 'horizontal'
+    },
+    onApprove: (data, actions) => {
+      console.log('onApprove - transaction was approved, but not authorized', data, actions);
+      actions.order.get().then(details => {
+        console.log('onApprove - you can get full order details inside onApprove: ', details);
+      });
+      return actions.order.capture().then((details) => {
+        if(details.status === 'COMPLETED') {
+           this.router.navigate(['/services/payment', {transactionId: details.id}]);
+          
+        }
+      })
+      
+    },
+    onClientAuthorization: (data: any) => {
+      console.log('onClientAuthorization - you should probably inform your server about completed transaction at this point', data);
+      this.showSuccess = true;
+    },
+    onCancel: (data, actions) => {
+      console.log('OnCancel', data, actions);
+    },
+    onError: err => {
+      console.log('OnError', err);
+    },
+    onClick: (data, actions) => {
+      console.log('onClick', data, actions);
+    },
+  };
+  }
+
 }

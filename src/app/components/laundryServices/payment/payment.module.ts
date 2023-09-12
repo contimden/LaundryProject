@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
-import { LaundryServicesComponent } from './laundryServices.component';
-import { LaundryServicesRoutingModule } from './laundryServices-routing.module';
+import { PaymentRoutingModule } from './payment-routing.module';
 import { CommonModule, DatePipe } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
 import { CalendarModule } from 'primeng/calendar';
@@ -15,11 +14,12 @@ import { ToastModule } from 'primeng/toast';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { InputTextModule } from 'primeng/inputtext';
 import { NgxPayPalModule } from 'ngx-paypal';
+import { PaymentComponent } from './payment.component';
 
 
 @NgModule({
   imports: [
-    LaundryServicesRoutingModule,
+    PaymentRoutingModule,
     CommonModule,
     ButtonModule,
     CalendarModule,
@@ -36,7 +36,7 @@ import { NgxPayPalModule } from 'ngx-paypal';
     FileUploadModule,
     NgxPayPalModule
   ],
-  declarations: [LaundryServicesComponent],
+  declarations: [PaymentComponent],
   providers: [MessageService, DatePipe],
 })
-export class LaundryServicesModule {}
+export class PaymentModule {}

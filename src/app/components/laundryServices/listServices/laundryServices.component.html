@@ -40,10 +40,11 @@
       <ul class="p-0 mx-0 mt-0 mb-4 list-none">
         <li class="flex align-items-center py-2 border-bottom-1 surface-border">
           <span class="text-900 line-height-3">
-            Price: $20 per month. Unlimited cloth
-          </span>
+            Price: ${{amount}} per month. Unlimited cloth
+          </span>         
         </li>
       </ul>
+      <ngx-paypal [config]="payPalConfig"></ngx-paypal>
     </div>
   </div>
 </div>
