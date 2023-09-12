@@ -18,9 +18,11 @@ export class TopBarComponent {
   updateAccountForm: FormGroup
   items: MenuItem[] | undefined
   id: number
+  type: number
   file: File
   dobString: string
-
+  topbarStyle: string
+  
   @ViewChild('menubutton') menuButton!: ElementRef;
 
   @ViewChild('topbarmenubutton') topbarMenuButton!: ElementRef;
@@ -38,6 +40,9 @@ export class TopBarComponent {
   ngOnInit() {
     const id = localStorage.getItem('id');
     this.id = parseInt(id);
+    const type = localStorage.getItem('type');
+    this.type = parseInt(type);
+    this.topbarStyle = this.type == 4 ? "#85b2f9" : "white"
     if(id == null){
       this.router.navigate(['/login']);
     } else {
@@ -61,7 +66,7 @@ export class TopBarComponent {
       );
       this.items = [
         {
-          label: 'Users',
+          label: this.type < 4 ? 'Users' : 'Admin',
           icon: '',
           items: [
             {

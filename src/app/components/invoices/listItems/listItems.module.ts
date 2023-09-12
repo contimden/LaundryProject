@@ -10,6 +10,12 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { InputTextModule } from 'primeng/inputtext';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { DropdownModule } from 'primeng/dropdown';
+import { MessagesModule } from 'primeng/messages';
+import { ConfirmationService, MessageService } from 'primeng/api';
+import { CalendarModule } from 'primeng/calendar';
+import { DatePipe } from '@angular/common';
+import { FileUploadModule } from 'primeng/fileupload';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
     imports: [
@@ -23,8 +29,17 @@ import { DropdownModule } from 'primeng/dropdown';
         ReactiveFormsModule,
         InputTextModule,
         InputNumberModule,
-        DropdownModule
+        DropdownModule,
+        MessagesModule,
+        CalendarModule,
+        FileUploadModule,
+        MessagesModule
     ],
-    declarations: [ListItemsComponent]
+    declarations: [ListItemsComponent],
+    providers: [
+        MessageService,
+        DatePipe,
+        ConfirmationService
+      ],
 })
 export class ListItemsModule { }
