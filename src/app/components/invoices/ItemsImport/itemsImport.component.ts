@@ -10,23 +10,24 @@ import { ItemService } from 'src/app/services/item.service';
 
 @Component({
   templateUrl: './itemImport.component.html',
-  styles: [`
-    .p-inputnumber: {
-      width: 100%;
-    }
-  `]
+  styles: [
+    `
+      .p-inputnumber: {
+        width: 100%;
+      }
+    `,
+  ],
 })
 export class ItemImportComponent implements OnInit {
-  
   itemImportForm: FormGroup;
-  itemsImports: ItemImport[]
-  itemsImport: ItemImport
-  items: Item[]
-  item: Item
-  contentVisible: boolean
-  isEditing: boolean
-  file : File
-  keyword : string = ''
+  itemsImports: ItemImport[];
+  itemsImport: ItemImport;
+  items: Item[];
+  item: Item;
+  contentVisible: boolean;
+  isEditing: boolean;
+  file: File;
+  keyword: string = '';
 
   constructor(
     private formBuilder: FormBuilder,
@@ -34,28 +35,29 @@ export class ItemImportComponent implements OnInit {
     private messageService: MessageService,
     public datepipe: DatePipe,
     private itemService: ItemService,
-    private router : Router
+    private router: Router
   ) {}
 
   ngOnInit() {
     this.itemImportService.findAll().then(
-      (res) => {        
+      (res) => {
         this.itemsImports = res as ItemImport[];
       },
       (err) => {
         console.log(err);
       }
-    );    this.contentVisible = false
+    );
+    this.contentVisible = false;
   }
 
   addRow() {
-    this.contentVisible = !this.contentVisible
+    this.contentVisible = !this.contentVisible;
     this.itemImportForm = this.formBuilder.group({
       idItem: null,
-      quantity : null,
+      quantity: null,
       description: null,
       price: null,
-      entryDate: new Date()
+      entryDate: new Date(),
     });
   }
 
@@ -65,12 +67,15 @@ export class ItemImportComponent implements OnInit {
 
   editRow(itemsImport: ItemImport) {
     console.log(itemsImport);
-    itemsImport.entryDate = this.datepipe.transform(itemsImport.entryDate, 'dd/MM/yyyy')
-    this.contentVisible = true
-    this.isEditing = true
+    itemsImport.entryDate = this.datepipe.transform(
+      itemsImport.entryDate,
+      'dd/MM/yyyy'
+    );
+    this.contentVisible = true;
+    this.isEditing = true;
     this.itemImportForm = this.formBuilder.group({
-      id : itemsImport.id,
-      idItem : itemsImport.idItem,
+      id: itemsImport.id,
+      idItem: itemsImport.idItem,
       quantity: itemsImport.quantity,
       description: itemsImport.description,
       price: itemsImport.price,
@@ -79,38 +84,38 @@ export class ItemImportComponent implements OnInit {
   }
 
   addItem() {
-    var itemImp : ItemImport = this.itemImportForm.value as ItemImport;
+    var itemImp: ItemImport = this.itemImportForm.value as ItemImport;
     console.log(itemImp);
     this.itemImportService.create(itemImp).then(
-      res => {
-          var result: any = res as any;
-          if (result.status) {
-              console.log(result);
-              // Làm mới danh sách sau khi thêm mục thành công
-              this.itemImportService.findAll().then(
-                  updatedItems => {
-                      this.itemsImports = updatedItems as ItemImport[];
-                  },
-                  err => {
-                      console.log(err);
-                  }
-              );
-          } else {
-              this.messageService.add({
-                  severity: 'error',
-                  summary: 'Failed',
-                  detail: 'Cap nhat San Pham That Bai 1'
-              });
-          }
-      },
-      err => {
+      (res) => {
+        var result: any = res as any;
+        if (result.status) {
+          console.log(result);
+          // Làm mới danh sách sau khi thêm mục thành công
+          this.itemImportService.findAll().then(
+            (updatedItems) => {
+              this.itemsImports = updatedItems as ItemImport[];
+            },
+            (err) => {
+              console.log(err);
+            }
+          );
+        } else {
           this.messageService.add({
-              severity: 'error',
-              summary: 'Failed',
-              detail: 'Cap nhat San Pham That Bai 2'
+            severity: 'error',
+            summary: 'Failed',
+            detail: 'Cap nhat San Pham That Bai 1',
           });
+        }
+      },
+      (err) => {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Failed',
+          detail: 'Cap nhat San Pham That Bai 2',
+        });
       }
-  );
+    );
   }
 
   selectFile(evt: any) {
@@ -118,43 +123,42 @@ export class ItemImportComponent implements OnInit {
   }
 
   cancelEditing() {
-    this.contentVisible = false
-    this.isEditing = false
+    this.contentVisible = false;
+    this.isEditing = false;
   }
 
-  deleteItem(id : number) {
+  deleteItem(id: number) {
     console.log(id);
-          this.itemImportService.delete(id).then(
-              res =>{
-                  var result = res as any;
-                  if(result.status){
-                      this.messageService.add({
-                         severity: 'success',
-                          detail: 'Done',
-                      });
-                      this.itemImportService.findAll().then(
-                          res => {
-                              this.items = res as Item[];                           
-                          },
-                          err => {
-                              console.log(err);
-                          }
-                      );
-                  }else{
-                      this.messageService.add({
-                          severity: 'error',
-                           detail: 'Failed',
-                       })
-                  }
-              },
-              err => {
-                  this.messageService.add({
-                      severity: 'error',
-                      summary: 'Failed',
-                      detail: 'Xoa that bai',
-                  })
-              }
-          )  
+    this.itemImportService.delete(id).then(
+      (res) => {
+        var result = res as any;
+        if (result.status) {
+          this.messageService.add({
+            severity: 'success',
+            detail: 'Done',
+          });
+          this.itemImportService.findAll().then(
+            (res) => {
+              this.items = res as Item[];
+            },
+            (err) => {
+              console.log(err);
+            }
+          );
+        } else {
+          this.messageService.add({
+            severity: 'error',
+            detail: 'Failed',
+          });
+        }
+      },
+      (err) => {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Failed',
+          detail: 'Xoa that bai',
+        });
+      }
+    );
   }
-  
 }

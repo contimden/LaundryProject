@@ -17,39 +17,35 @@ export class MenuComponent implements OnInit {
     this.type = parseInt(type);
     this.model = [
       {
-        label: 'Home',
+        label: '',
         items: [
           {
             label: 'Dashboard',
             icon: 'pi pi-fw pi-home',
             routerLink: ['/dashboard'],
           },
+
+        ],
+        visible: this.type == 4
+      },
+      {
+        label: 'Account',
+        items: [
           {
-            label: 'Account',
+            label: this.type == 4 ? 'List account' : 'Account',
             icon: 'pi pi-fw pi-home',
             routerLink: ['/account/account'],
-            visible: this.type == 4
           },
         ],
+        visible: this.type == 4
       },
       {
-        label: 'Services',
+        label: this.type == 4 ? 'Invoices' : 'Order',
         items: [
           {
-            label: 'Laundry serivces',
-            icon: 'pi pi-fw pi-th-large',
-            routerLink: ['/services/list-services'],
-          },
-          // { label: 'List invoices', icon: 'pi pi-fw pi-file', routerLink: ['/invoices/list-invoices'] },
-        ],
-      },
-      {
-        label: 'Invoices',
-        items: [
-          {
-            label: 'List invoices',
+            label: this.type == 4 ? 'List invoices' : 'Order',
             icon: 'pi pi-fw pi-file',
-            routerLink: ['/invoices/list-invoices'],
+            routerLink: ['/invoices/invoices'],
           },
         ],
       },
@@ -66,6 +62,17 @@ export class MenuComponent implements OnInit {
             icon: 'pi pi-fw pi-file',
             routerLink: ['/invoices/items-import'],
           }
+        ],
+        visible: this.type == 4
+      },
+      {
+        label: 'Services',
+        items: [
+          {
+            label: 'Laundry serivces',
+            icon: 'pi pi-fw pi-th-large',
+            routerLink: ['/services/list-services'],
+          },
         ],
       },
     ];
