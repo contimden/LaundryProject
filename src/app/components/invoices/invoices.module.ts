@@ -4,6 +4,7 @@ import { InvoicesRoutingModule } from './invoices-routing.module';
 import { PaypalModule } from './paypal/paypal.module';
 import { ListItemsModule } from './listItems/listItems.module';
 import { ItemImportModule } from './ItemsImport/itemsImport.module';
+import { InvoiceDetailsModule } from './invoiceDetails/invoiceDetails.module';
 
 @NgModule({
 	imports: [
@@ -11,7 +12,8 @@ import { ItemImportModule } from './ItemsImport/itemsImport.module';
 		InvoicesRoutingModule,
 		PaypalModule,
 		ListItemsModule,
-		ItemImportModule
+		ItemImportModule,
+		InvoiceDetailsModule
 	]
 })
 export class InvoicesModule { }

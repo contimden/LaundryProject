@@ -4,4 +4,6 @@ export class InvoiceDetail {
 	idservice: number
 	quantity: number
 	description: string
+	name: string
+	unit: string
 }

@@ -24,8 +24,8 @@ export class DashboardComponent implements OnInit {
   itemnumber: number;
   items: Item[];
   chartData: any;
-
   chartOptions: any;
+  type: number
 
   constructor(
     private formBuilder: FormBuilder,
@@ -35,6 +35,8 @@ export class DashboardComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    const type = localStorage.getItem('type');
+    this.type = parseInt(type);
     this.invoicesService.findAll().then(
       (res) => {        
         var invoices = res as Invoices[];

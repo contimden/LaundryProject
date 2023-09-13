@@ -14,8 +14,7 @@ import { IPayPalConfig, ICreateOrderRequest } from 'ngx-paypal';
   templateUrl: './laundryServices.component.html',
 })
 export class LaundryServicesComponent implements OnInit {
-
-  amount = '20.0';
+  amount = 50;
   public showSuccess: boolean;
   public payPalConfig?: IPayPalConfig;
   public showPaypalButtons: boolean;
@@ -26,8 +25,8 @@ export class LaundryServicesComponent implements OnInit {
   isEditing: boolean;
   serviceId: number;
   file: File;
-  editPhoto: string
-  type: number
+  editPhoto: string;
+  type: number;
   constructor(
     private laundryService: LaundryServicesService,
     private formBuilder: FormBuilder,
@@ -40,7 +39,7 @@ export class LaundryServicesComponent implements OnInit {
   ngOnInit() {
     this.initConfig();
     const type = localStorage.getItem('type');
-    this.type = parseInt(type)
+    this.type = parseInt(type);
     this.laundryService.findAll().then(
       (res) => {
         this.services = res as LaundryServices[];
@@ -111,24 +110,18 @@ export class LaundryServicesComponent implements OnInit {
       (res) => {
         var result: any = res as any;
         if (result.status) {
+          console.log(result);
+          
           this.messageService.add({
             severity: 'success',
             detail: 'Done',
           });
-          this.laundryService.findAll().then(
-            (res) => {
-              this.services = res as LaundryServices[];
-              this.contentVisible = false;
-            },
-            (err) => {
-              console.log(err);
-            }
-          );
         } else {
           this.messageService.add({
             severity: 'error',
             summary: 'Failed',
-            detail: 'Them that bai',
+            detail: 'Update failed',
+            life: 1000,
           });
         }
       },
@@ -145,7 +138,7 @@ export class LaundryServicesComponent implements OnInit {
   editRow(service: any) {
     this.contentVisible = true;
     this.isEditing = true;
-    this.editPhoto = service.photo
+    this.editPhoto = service.photo;
     console.log(service);
     this.serviceForm = this.formBuilder.group({
       id: service.id,
@@ -198,79 +191,99 @@ export class LaundryServicesComponent implements OnInit {
       reject: (type) => {},
     });
   }
-  
+
   selectFile(evt: any) {
     this.file = evt.files[0];
   }
+
   private initConfig(): void {
     this.payPalConfig = {
-    currency: 'USD',
-    clientId: 'Ab5n6QXOP4Gonh7SjvjV2IaMIAfV_AqjbowtPrpJeaTLW2O1ML8n_SnL2wh8dBHf7S1sNOq6EaNK9zIV',
-    createOrderOnClient: (data) => <ICreateOrderRequest>{
-      intent: 'CAPTURE',
-      purchase_units: [
-        {
-          amount: {
-            currency_code: 'USD',
-            value: this.amount.toString(),
-            breakdown: {
-              item_total: {
-                currency_code: 'USD',
-                value: this.amount.toString()
-              }
-            }
-          },
-          items: [
+      currency: 'USD',
+      clientId:
+        'Ab5n6QXOP4Gonh7SjvjV2IaMIAfV_AqjbowtPrpJeaTLW2O1ML8n_SnL2wh8dBHf7S1sNOq6EaNK9zIV',
+      createOrderOnClient: (data) =>
+        <ICreateOrderRequest>{
+          intent: 'CAPTURE',
+          purchase_units: [
             {
-              name: '1 month',
-              quantity: '1',
-              category: 'DIGITAL_GOODS',
-              unit_amount: {
+              amount: {
                 currency_code: 'USD',
                 value: this.amount.toString(),
+                breakdown: {
+                  item_total: {
+                    currency_code: 'USD',
+                    value: this.amount.toString(),
+                  },
+                },
               },
-              description: 'Clean diagram for 1 month',
-            }
-          ]
-        }
-      ]
-    },
-    advanced: {
-      commit: 'true'
-    },
-    style: {
-      label: 'paypal',
-      color: 'blue',
-      shape: 'rect',
-      layout: 'horizontal'
-    },
-    onApprove: (data, actions) => {
-      console.log('onApprove - transaction was approved, but not authorized', data, actions);
-      actions.order.get().then(details => {
-        console.log('onApprove - you can get full order details inside onApprove: ', details);
-      });
-      return actions.order.capture().then((details) => {
-        if(details.status === 'COMPLETED') {
-           this.router.navigate(['/services/payment', {transactionId: details.id}]);
-          
-        }
-      })
-      
-    },
-    onClientAuthorization: (data: any) => {
-      console.log('onClientAuthorization - you should probably inform your server about completed transaction at this point', data);
-      this.showSuccess = true;
-    },
-    onCancel: (data, actions) => {
-      console.log('OnCancel', data, actions);
-    },
-    onError: err => {
-      console.log('OnError', err);
-    },
-    onClick: (data, actions) => {
-      console.log('onClick', data, actions);
-    },
-  };
-  }
+              items: [
+                {
+                  name: '1 month',
+                  quantity: '1',
+                  category: 'DIGITAL_GOODS',
+                  unit_amount: {
+                    currency_code: 'USD',
+                    value: this.amount.toString(),
+                  },
+                  description: 'Clean diagram for 1 month',
+                },
+              ],
+            },
+          ],
+        },
 
+      advanced: {
+        commit: 'true',
+      },
+
+      style: {
+        label: 'paypal',
+        color: 'blue',
+        shape: 'rect',
+        layout: 'horizontal',
+      },
+
+      onApprove: (data, actions) => {
+        console.log(
+          'onApprove - transaction was approved, but not authorized',
+          data,
+          actions
+        );
+        actions.order.get().then((details) => {
+          console.log(
+            'onApprove - you can get full order details inside onApprove: ',
+            details
+          );
+        });
+        return actions.order.capture().then((details) => {
+          if (details.status === 'COMPLETED') {
+            this.router.navigate([
+              '/services/payment',
+              { transactionId: details.id },
+            ]);
+          }
+        });
+      },
+
+      onClientAuthorization: (data: any) => {
+        console.log(
+          'onClientAuthorization - you should probably inform your server about completed transaction at this point',
+          data
+        );
+        this.showSuccess = true;
+      },
+
+      onCancel: (data, actions) => {
+        console.log('OnCancel', data, actions);
+      },
+
+      onError: (err) => {
+        console.log('OnError', err);
+      },
+
+      onClick: (data, actions) => {
+        console.log('onClick', data, actions);
+      },
+    };
+  }
 }

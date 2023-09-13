@@ -20,6 +20,10 @@ export class InvoicesService {
     return await lastValueFrom(this.httpClient.get(this.baseURLService.getBaseUrl() + 'invoice/findbyid/' + id));
   }
 
+  async findByIdAcc(id: number) {
+    return await lastValueFrom(this.httpClient.get(this.baseURLService.getBaseUrl() + 'invoice/findbyidacc/' + id));
+  }
+
   async create(invoice: Invoices) {
     return await lastValueFrom(this.httpClient.post(this.baseURLService.getBaseUrl() + 'invoice/create', invoice));
   }
